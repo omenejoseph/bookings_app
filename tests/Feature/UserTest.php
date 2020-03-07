@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class CreateUserTest extends TestCase
+class UserTest extends TestCase
 {
     use WithFaker;
 
