@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\UserContract;
+use App\Exceptions\NotFoundException;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -73,4 +74,13 @@ class UserRepository implements UserContract
    {
        return $user->delete();
    }
+
+    public function findUserByUserName()
+    {
+        $user =  User::whereEmail(request()->username)->orWhere('username', request()->username)->first();
+        if (!$user){
+            throw new NotFoundException("User with these credentials do not exist");
+        }
+        return $user;
+    }
 }

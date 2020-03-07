@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Contracts\UserContract;
 use App\Enums\StatusCodeEnum;
+use App\Exceptions\BadRequestException;
 use App\Exceptions\NotFoundException;
 use App\Facade\AppUtils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use \Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -104,5 +106,22 @@ class UserController extends Controller
     {
         $users = $this->user_contract->list();
         return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successfully', $users);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function login()
+    {
+        $user = $this->user_contract->findUserByUserName();
+        AppUtils::validateUsernameAndPassword($user);
+        $data = AppUtils::generateTokenDataFromUser($user);
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Login Successfully', $data);
+    }
+
+    public function logOut()
+    {
+        auth('api')->logout();
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Logged out successfully');
     }
 }

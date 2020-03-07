@@ -72,4 +72,31 @@ class UserTest extends TestCase
         $response->assertStatus(StatusCodeEnum::OK);
     }
 
+    public function testLogin()
+    {
+        $response = $this->post(route('jwt-login'), [
+           'username' => "gudrun61" ,
+            'password' => "password"
+        ]);
+        $response->assertStatus(StatusCodeEnum::OK)->assertJsonStructure([
+            'status',
+            'data' => [
+                'token',
+                'token_type',
+                'expires_in'
+            ]
+        ]);
+    }
+
+    public function testLogOut()
+    {
+        $response = $this->post(route('jwt-login'), [
+            'username' => "gudrun61" ,
+            'password' => "password"
+        ]);
+        $token = optional(optional(json_decode($response->getContent()))->data)->token;
+        $response = $this->post(route('jwt-logout'), ['token' => $token]);
+        $response->assertStatus(StatusCodeEnum::OK);
+    }
+
 }

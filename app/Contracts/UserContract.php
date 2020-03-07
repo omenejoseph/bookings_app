@@ -16,4 +16,5 @@ interface UserContract
    public function list();
    public function update(User $user);
    public function destroy(User $user);
+   public function findUserByUserName();
 }

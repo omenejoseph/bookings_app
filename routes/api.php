@@ -22,6 +22,8 @@ Route::group(['middleware' => ['api'], 'prefix' => '/v1'], function (){
    Route::patch('/user/{user}', 'UserController@update')->name('update-user');
    Route::get('/user/{user}', 'UserController@show')->name('find-user');
    Route::get('/users', 'UserController@list')->name('list-users');
+   Route::post('/login', 'UserController@login')->name('jwt-login');
+   Route::post('/logout', 'UserController@logOut')->name('jwt-logout');
 
    Route::post('/booking', 'BookingController@create')->name('create-booking');
    Route::get('/booking/{booking}', 'BookingController@find')->name('find-booking');

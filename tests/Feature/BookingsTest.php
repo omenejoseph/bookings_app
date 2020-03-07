@@ -15,7 +15,7 @@ class BookingsTest extends TestCase
     private function getBookingsData()
     {
         return [
-            'title' => $this->faker->text
+            'title' => substr($this->faker->text, 0, 30)
         ];
     }
 
