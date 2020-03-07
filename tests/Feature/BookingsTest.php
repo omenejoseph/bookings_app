@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\StatusCodeEnum;
+use App\Facade\AppUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +24,13 @@ class BookingsTest extends TestCase
     {
         DB::beginTransaction();
         $data = $this->getBookingsData();
-        $response = $this->post(route('create-booking'), $data);
+        $response = $this->post(route('create-booking'), $data, AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::CREATED);
     }
 
     public function testFindBooking()
     {
-        $response = $this->get(route('find-booking', 1));
+        $response = $this->get(route('find-booking', 1), AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::OK);
         DB::rollBack();
     }
@@ -38,7 +39,7 @@ class BookingsTest extends TestCase
     {
         $data = $this->getBookingsData();
         $data['title'] = $this->faker->text;
-        $response = $this->patch(route('update-booking', 1), $data);
+        $response = $this->patch(route('update-booking', 1), $data, AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::UPDATED);
     }
 

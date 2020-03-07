@@ -3,15 +3,18 @@
 namespace Tests\Feature;
 
 use App\Enums\StatusCodeEnum;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use \App\Facade\AppUtils;
 
 class UserTest extends TestCase
 {
     use WithFaker;
 
-    private $user;
+    public $user;
 
     /**
      * A basic feature test example.
@@ -30,45 +33,40 @@ class UserTest extends TestCase
     public function testCreateUser()
     {
         DB::beginTransaction();
+
         $data = $this->userData();
-        $response = $this->post(route('create-user'), $data);
+        $user = factory(User::class)->create();
+        $token = JWTAuth::fromUser($user);
+        $response = $this->post(route('create-user'), $data, ['Authorization' => "Bearer $token"]);
         $response->assertStatus(StatusCodeEnum::CREATED);
     }
 
     public function testFindUser()
     {
-        $response = $this->get(route('find-user', 1));
+        $response = $this->get(route('find-user', 1), AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::OK);
     }
 
     private function userData()
     {
-        return [
-            'first_name' => $this->faker->name,
-            'last_name' => $this->faker->name,
-            'gender' => 'male',
-            'title' => $this->faker->title,
-            'phone' => $this->faker->phoneNumber,
-            'email' => $this->faker->email,
-            'username' => $this->faker->userName,
-            'role' => 'admin',
-            'password' => 'password',
-            'password_confirmation' => 'password'
-        ];
+        return array_merge(AppUtils::userFactoryData($this->faker), ['password_confirmation' => 'password']);
     }
 
     public function testUpdateUser()
     {
         $data = $this->userData();
         $data['last_name'] = $this->faker->title;
-        $response = $this->patch(route('update-user', 1), $data);
+
+        $response = $this->patch(route('update-user', 1), $data, AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::UPDATED);
         DB::rollBack();
     }
 
     public function testListUsers()
     {
-        $response = $this->get('/api/v1/users');
+        $user = factory(User::class)->create();
+
+        $response = $this->get('/api/v1/users', AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::OK);
     }
 

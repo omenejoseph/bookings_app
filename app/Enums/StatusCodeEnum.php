@@ -12,5 +12,6 @@ class StatusCodeEnum extends EnumManager
    const NOT_FOUND = 404;
    const BAD_REQUEST = 400;
    const SERVER_ERROR = 500;
+   const UNAUTHORISED = 403;
 
 }

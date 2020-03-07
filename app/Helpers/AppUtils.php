@@ -8,6 +8,7 @@ use App\Enums\StatusCodeEnum;
 use App\Exceptions\BadRequestException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AppUtils
@@ -54,5 +55,34 @@ class AppUtils
         if (!$valid){
             throw new BadRequestException("Username and Password does not match");
         }
+    }
+
+    /**
+     * @param $faker
+     * @return array
+     */
+    public function userFactoryData($faker)
+    {
+        return [
+            'first_name' => $faker->name,
+            'last_name' => $faker->name,
+            'gender' => 'male',
+            'title' => $faker->title,
+            'phone' => $faker->phoneNumber,
+            'email' => $faker->email,
+            'username' => $faker->userName,
+            'role' => 'admin',
+            'password' => 'password',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function generateTestTokenHeader()
+    {
+        $user = factory(User::class)->create();
+        $token = JWTAuth::fromUser($user);
+        return ['Authorization' => "Bearer $token"];
     }
 }
