@@ -3,12 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\StatusCodeEnum;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
-use Faker\Generator as Faker;
 
 class CreateUserTest extends TestCase
 {
@@ -34,14 +31,13 @@ class CreateUserTest extends TestCase
     {
         DB::beginTransaction();
         $data = $this->userData();
-        \Log::info($data);
-        $response = $this->post('/api/v1/user', $data);
+        $response = $this->post(route('create-user'), $data);
         $response->assertStatus(StatusCodeEnum::CREATED);
     }
 
     public function testFindUser()
     {
-        $response = $this->get('/api/v1/user?id=1');
+        $response = $this->get(route('find-user', 1));
         $response->assertStatus(StatusCodeEnum::OK);
     }
 
@@ -65,12 +61,15 @@ class CreateUserTest extends TestCase
     {
         $data = $this->userData();
         $data['last_name'] = $this->faker->title;
-        $response = $this->get('/api/v1/user?id=1');
-        $user = optional(json_decode($response->getContent()))->data;
-        $response = $this->patch('/api/v1/user?id='.$user->id, $data);
+        $response = $this->patch(route('update-user', 1), $data);
         $response->assertStatus(StatusCodeEnum::UPDATED);
         DB::rollBack();
+    }
 
+    public function testListUsers()
+    {
+        $response = $this->get('/api/v1/users');
+        $response->assertStatus(StatusCodeEnum::OK);
     }
 
 }

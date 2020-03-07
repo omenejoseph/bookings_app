@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Contracts;
+use App\Models\User;
 use App\Repositories\UserRepository;
 
 /**
@@ -11,8 +12,8 @@ use App\Repositories\UserRepository;
 interface UserContract
 {
    public function create();
-   public function find();
+   public function find(User $user);
    public function list();
-   public function update();
-   public function destroy();
+   public function update(User $user);
+   public function destroy(User $user);
 }

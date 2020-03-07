@@ -8,6 +8,7 @@ use App\Exceptions\NotFoundException;
 use App\Facade\AppUtils;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use \Illuminate\Routing\Controller;
 
 class UserController extends Controller
@@ -52,11 +53,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      * @throws NotFoundException
+     * @param User $user;
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(User $user)
     {
-        $user = $this->user_contract->find();
+        $user = $this->user_contract->find($user);
         if (!$user){
             throw new NotFoundException("User not found");
         }
@@ -76,25 +78,31 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  UpdateUserRequest  $request
+     * @param User $user;
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request)
+    public function update(User $user, UpdateUserRequest $request)
     {
-        $user = $this->user_contract->update();
+        $user = $this->user_contract->update($user);
         return AppUtils::jsonResponse(StatusCodeEnum::UPDATED, 'Updated Successfully', $user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(User $user)
     {
-        $this->user_contract->destroy();
+        $this->user_contract->destroy($user);
         return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Deleted Successfully');
+    }
+
+    public function list()
+    {
+        $users = $this->user_contract->list();
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successfully', $users);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\UserRequestTrait;
+use App\Traits\RequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class CreateBookingRequest extends FormRequest
 {
-    use UserRequestTrait;
+    use RequestTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +25,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return $this->valArray();
+        return [
+            'title' => 'required|string'
+        ];
     }
 }

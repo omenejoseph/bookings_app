@@ -29,11 +29,12 @@ class UserRepository implements UserContract
    }
 
     /**
+     * @param $user
      * @return mixed
      */
-   public function find()
+   public function find(User $user)
    {
-       return User::find(request()->id);
+       return $user;
    }
 
     /**
@@ -45,11 +46,11 @@ class UserRepository implements UserContract
    }
 
     /**
+     * @param $user
      * @return User
      */
-   public function update() : User
+   public function update(User $user) : User
    {
-       $user = $this->find();
        $user->update([
            'first_name' => $user->first_name ?? request()->first_name ,
            'last_name' => $user->last_name ?? request()->last_name,
@@ -64,10 +65,12 @@ class UserRepository implements UserContract
    }
 
     /**
+     * @param User $user
      * @return bool
+     * @throws \Exception
      */
-   public function destroy() : bool
+   public function destroy(User $user) : bool
    {
-       return $this->find()->destroy();
+       return $user->delete();
    }
 }

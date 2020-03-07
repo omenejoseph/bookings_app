@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Contracts;
+use App\Models\Booking;
 use App\Repositories\BookingRepository;
 
 /**
@@ -11,7 +12,7 @@ use App\Repositories\BookingRepository;
 interface BookingContract
 {
    public function create();
-   public function read();
-   public function update();
-   public function destroy();
+   public function read(Booking $booking);
+   public function update(Booking $booking);
+   public function destroy(Booking $booking);
 }
