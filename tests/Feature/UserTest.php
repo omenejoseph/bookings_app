@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use \App\Facade\AppUtils;
 
 class UserTest extends TestCase
@@ -35,9 +34,7 @@ class UserTest extends TestCase
         DB::beginTransaction();
 
         $data = $this->userData();
-        $user = factory(User::class)->create();
-        $token = JWTAuth::fromUser($user);
-        $response = $this->post(route('create-user'), $data, ['Authorization' => "Bearer $token"]);
+        $response = $this->post(route('create-user'), $data, AppUtils::generateTestTokenHeader());
         $response->assertStatus(StatusCodeEnum::CREATED);
     }
 
@@ -81,7 +78,8 @@ class UserTest extends TestCase
             'data' => [
                 'token',
                 'token_type',
-                'expires_in'
+                'expires_in',
+                'user'
             ]
         ]);
     }

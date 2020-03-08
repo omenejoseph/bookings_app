@@ -8,6 +8,7 @@ use App\Exceptions\BadRequestException;
 use App\Exceptions\NotFoundException;
 use App\Facade\AppUtils;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use \Illuminate\Routing\Controller;
@@ -109,9 +110,10 @@ class UserController extends Controller
     }
 
     /**
+     * @param LoginRequest $request
      * @return mixed
      */
-    public function login()
+    public function login(LoginRequest $request)
     {
         $user = $this->user_contract->findUserByUserName();
         AppUtils::validateUsernameAndPassword($user);
@@ -123,5 +125,10 @@ class UserController extends Controller
     {
         auth('api')->logout();
         return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Logged out successfully');
+    }
+
+    public function getAuthUser()
+    {
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action successfully', request()->user);
     }
 }

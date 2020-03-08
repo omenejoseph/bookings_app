@@ -3,30 +3,51 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import axios from 'axios';
 require('./bootstrap');
 
-window.Vue = require('vue');
+Vue.use(VueRouter);
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import Vuex from 'vuex';
+Vue.use(Vuex);
+import storeData from "./store/index";
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+const store = new Vuex.Store(
+    storeData
+);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import App from './components/App';
+import Home from './components/HomeComponent';
+import Example from './components/ExampleComponent';
+import DashboardComponent from "./components/DashboardComponent";
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
+axios.defaults.baseURL = '/api/v1';
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/example',
+            name: 'example',
+            component: Example
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: DashboardComponent
+        }
+    ],
+});
 const app = new Vue({
     el: '#app',
+    components: {App},
+    router,
+    mode: 'history',
+    store
 });

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\StatusCodeEnum;
 use App\Facade\AppUtils;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
