@@ -13,6 +13,8 @@ Vue.use(VueRouter);
 import Vuex from 'vuex';
 Vue.use(Vuex);
 import storeData from "./store/index";
+import {authenticated, unauthenticated} from "./middlewares/auth";
+import VueRouteMiddleware from 'vue-route-middleware';
 
 const store = new Vuex.Store(
     storeData
@@ -30,7 +32,10 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Home,
+            meta: {
+                middleware: [unauthenticated]
+            }
         },
         {
             path: '/example',
@@ -40,10 +45,32 @@ const router = new VueRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: DashboardComponent
+            component: DashboardComponent,
+            meta: {
+                middleware: [authenticated]
+            }
+        },
+        {
+            path: '*',
+            redirect: '/'
         }
+
     ],
 });
+router.beforeEach((to, from, next) => {
+    if (!to.meta.middleware) {
+        return next()
+    }
+    const middleware = to.meta.middleware;
+    const context = {
+        next,
+        router
+    };
+    return middleware[0]({
+        ...context
+    });
+});
+
 const app = new Vue({
     el: '#app',
     components: {App},

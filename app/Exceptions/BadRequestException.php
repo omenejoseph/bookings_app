@@ -14,11 +14,11 @@ class BadRequestException extends Exception
     {
         parent::__construct($message, $code, $previous);
         $this->message = $message;
-        $this->status_code = ($code == 0) ? 404 : $code;
+        $this->status_code = ($code == 0) ? 400 : $code;
     }
 
     public function render()
     {
-        return AppUtils::jsonResponse(StatusCodeEnum::BAD_REQUEST, $this->message);
+        return AppUtils::jsonResponse($this->status_code, $this->message);
     }
 }

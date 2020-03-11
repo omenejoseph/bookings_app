@@ -21,12 +21,13 @@ Route::group(['middleware' => ['api'], 'prefix' => '/v1'], function (){
     //UNAUTHENTICATED ROUTES
     Route::post('/login', 'UserController@login')->name('jwt-login');
     Route::post('/logout', 'UserController@logOut')->name('jwt-logout');
+
+    Route::post('user', 'UserController@store')->name('create-user');
 });
 
 //AUTHENTICATED ROUTES
 Route::group(['middleware' => ['api', 'validateToken'], 'prefix' => '/v1'], function(){
     Route::post('/get-auth-user', 'UserController@getAuthUser');
-    Route::post('user', 'UserController@store')->name('create-user');
     Route::patch('user/{user}', 'UserController@update')->name('update-user');
     Route::get('user/{user}', 'UserController@show')->name('find-user');
     Route::get('users', 'UserController@list')->name('list-users');

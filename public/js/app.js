@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -1943,28 +1955,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "DashboardComponent",
   data: function data() {
     return {
-      'user': {}
+      user: {}
     };
   },
   computed: {
-    getUserData: function getUserData() {
-      this.user = this.$store.getters.getUserFromState;
+    currentUser: function currentUser() {
+      return this.$store.getters.getUserFromState;
     }
   },
   components: {},
-  mounted: function mounted() {
-    this.user = localStorage.getItem('user'); // console.log(this.user);
-
-    this.$store.dispatch("getUser").then(function (response) {
-      return console.log(response);
-    })["catch"](function (error) {
-      return console.log("unsuccessful");
-    });
-  }
+  mounted: {},
+  methods: {}
 });
 
 /***/ }),
@@ -2013,6 +2020,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_Nav_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./elements/Nav-bar */ "./resources/js/components/elements/Nav-bar.vue");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/auth-service */ "./resources/js/services/auth-service.js");
 //
 //
 //
@@ -2038,58 +2046,136 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HomeComponent",
   components: {
     NavBar: _elements_Nav_bar__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {
-    this.$store.dispatch("getUserFromState").then(function (response) {
-      return console.log("successful");
-    })["catch"](function (error) {
-      return console.log("unsuccessful");
-    });
-  },
-  computed: {
-    getUserData: function getUserData() {
-      this.user = this.$store.getters.getUserFromState;
-      console.log(this.user);
-    }
-  },
+  mounted: function mounted() {},
+  computed: {},
   data: function data() {
     return {
       formData: {},
       errors: {},
       errorString: "",
-      user: {}
+      user: {},
+      login: true
     };
   },
   methods: {
     submit: function submit() {
       var _this = this;
 
+      this.clearErrors();
+      console.log(this.formData);
+      this.$store.dispatch('login', this.formData).then(function () {
+        return _this.$router.push({
+          name: "dashboard"
+        });
+      })["catch"](function (error) {
+        console.log(error);
+        var serverError = error.response;
+
+        _this.handleErrorsObject(serverError);
+      });
+    },
+    register: function register() {
+      this.clearErrors();
+      this.formData.role = "user"; // AuthService.register(this.user);
+    },
+    switchToRegister: function switchToRegister(event) {
+      event.preventDefault();
+      this.login = false;
+      this.formData = {};
+    },
+    switchToLogin: function switchToLogin(event) {
+      event.preventDefault();
+      this.login = true;
+      this.formData = {};
+    },
+    handleErrorsObject: function handleErrorsObject(error) {
+      var serverError = error.response.data;
+      this.errorString = "You have some errors in your form";
+      this.errors.username = serverError.errors.username[0];
+      this.errors.password = serverError.errors.password[0];
+      this.errors.first_name = serverError.errors.first_name[0];
+      this.errors.last_name = serverError.errors.last_name[0];
+      this.errors.email = serverError.errors.email[0];
+      this.errors.phone = serverError.errors.phone[0];
+      this.errors.gender = serverError.errors.gender[0];
+      this.errors.title = serverError.errors.title[0];
+    },
+    clearErrors: function clearErrors() {
       this.errors = {};
       this.errorString = "";
-      console.log("hello");
-      axios.post('login', {
-        username: this.formData.username,
-        password: this.formData.password
-      }).then(function (response) {
-        localStorage.setItem('token', 'Bearer ' + response.data.data.token);
-        localStorage.setItem('user', response.data.data.user);
-
-        _this.$router.push({
-          name: 'dashboard'
-        });
-
-        console.log(response);
-      })["catch"](function (error) {
-        var serverError = error.response.data;
-        _this.errorString = serverError.message;
-        _this.errors.username = serverError.errors.username[0];
-        _this.errors.password = serverError.errors.password[0]; // console.log(error)
-      });
     }
   }
 });
@@ -37200,6 +37286,743 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/setimmediate/setImmediate.js":
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
@@ -37524,7 +38347,7 @@ var render = function() {
     _c("h1", [
       _vm._v("Welcome to your Dashboard "),
       _c("span", { staticClass: "text-capitalize" }, [
-        _vm._v(_vm._s(_vm.user.username))
+        _vm._v("\n        " + _vm._s(_vm.currentUser.username) + "\n    ")
       ])
     ])
   ])
@@ -37603,94 +38426,478 @@ var render = function() {
   return _c("div", { staticClass: "flex" }, [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
-        _vm._v("Log Into Bookings App")
+        _vm.login ? _c("h4", [_vm._v("Login")]) : _c("h4", [_vm._v("Register")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body justify-content-center" }, [
         _vm.errorString
-          ? _c("div", { staticClass: "text-danger pl-5" }, [
-              _vm._v(_vm._s(_vm.errorString))
+          ? _c("div", { staticClass: "text-danger pl-5" })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.login
+          ? _c("div", { staticClass: "login" }, [
+              _c("form", { staticClass: "form", attrs: { action: "" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Username")]),
+                  _vm._v(" "),
+                  _vm.errors.username
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.username))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.username,
+                        expression: "formData.username"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Username" },
+                    domProps: { value: _vm.formData.username },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "username", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Password")]),
+                  _vm._v(" "),
+                  _vm.errors.password
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.username))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.password,
+                        expression: "formData.password"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "password", placeholder: "Password" },
+                    domProps: { value: _vm.formData.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "password", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "btn btn-outline-primary btn-block",
+                    on: {
+                      click: function($event) {
+                        return _vm.submit()
+                      }
+                    }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex flex-row-reverse pt-3" }, [
+                _c("h4", [
+                  _vm._v("Not a member "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: { click: _vm.switchToRegister }
+                    },
+                    [_vm._v("Register here")]
+                  )
+                ])
+              ])
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("form", { staticClass: "form", attrs: { action: "" } }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "" } }, [_vm._v("Username")]),
-            _vm._v(" "),
-            _vm.errors.username
-              ? _c("div", { staticClass: "text-danger" }, [
-                  _vm._v(_vm._s(_vm.errors.username))
+        !_vm.login
+          ? _c("div", { staticClass: "register" }, [
+              _c("form", { staticClass: "form", attrs: { action: "" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("First Name")]),
+                  _vm._v(" "),
+                  _vm.errors.first_name
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.first_name))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.first_name,
+                        expression: "formData.first_name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "First Name" },
+                    domProps: { value: _vm.formData.first_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formData,
+                          "first_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Last Name")]),
+                  _vm._v(" "),
+                  _vm.errors.last_name
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.last_name))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.last_name,
+                        expression: "formData.last_name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Last Name" },
+                    domProps: { value: _vm.formData.last_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "last_name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Username")]),
+                  _vm._v(" "),
+                  _vm.errors.username
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.username))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.username,
+                        expression: "formData.username"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Username" },
+                    domProps: { value: _vm.formData.username },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "username", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                  _vm._v(" "),
+                  _vm.errors.email
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.email))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.email,
+                        expression: "formData.email"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "email", placeholder: "Email" },
+                    domProps: { value: _vm.formData.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Password")]),
+                  _vm._v(" "),
+                  _vm.errors.password
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.password))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.password,
+                        expression: "formData.password"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "password", placeholder: "Password" },
+                    domProps: { value: _vm.formData.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "password", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Confirm Password")
+                  ]),
+                  _vm._v(" "),
+                  _vm.errors.password_confirmation
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.password_confirmation))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.password_confirmation,
+                        expression: "formData.password_confirmation"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "password", placeholder: "Retype Password" },
+                    domProps: { value: _vm.formData.password_confirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formData,
+                          "password_confirmation",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Gender")]),
+                  _vm._v(" "),
+                  _vm.errors.gender
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.gender))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.gender,
+                          expression: "formData.gender"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.formData,
+                            "gender",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "male" } }, [
+                        _vm._v("Male")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "female" } }, [
+                        _vm._v("Female")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Title")]),
+                  _vm._v(" "),
+                  _vm.errors.title
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.title))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.title,
+                          expression: "formData.title"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.formData,
+                            "title",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "mr" } }, [_vm._v("Mr")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "mrs" } }, [
+                        _vm._v("Mrs")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "miss" } }, [
+                        _vm._v("Miss")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Phone")]),
+                  _vm._v(" "),
+                  _vm.errors.phone
+                    ? _c("div", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.phone))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.phone,
+                        expression: "formData.phone"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "tel", placeholder: "Phone Number" },
+                    domProps: { value: _vm.formData.phone },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "phone", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "btn btn-outline-primary btn-block",
+                    on: { click: _vm.register }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex flex-row-reverse pt-3" }, [
+                _c("h4", [
+                  _vm._v("Already a member "),
+                  _c(
+                    "a",
+                    { attrs: { href: "#" }, on: { click: _vm.switchToLogin } },
+                    [_vm._v("Login")]
+                  )
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.formData.username,
-                  expression: "formData.username"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Username" },
-              domProps: { value: _vm.formData.username },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.formData, "username", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "" } }, [_vm._v("Password")]),
-            _vm._v(" "),
-            _vm.errors.password
-              ? _c("div", { staticClass: "text-danger" }, [
-                  _vm._v(_vm._s(_vm.errors.username))
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.formData.password,
-                  expression: "formData.password"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "password", placeholder: "Password" },
-              domProps: { value: _vm.formData.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.formData, "password", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "btn btn-outline-primary btn-block",
-              on: {
-                click: function($event) {
-                  return _vm.submit()
-                }
-              }
-            },
-            [_vm._v("Submit")]
-          )
-        ])
+              ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
@@ -37841,6 +39048,252 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-route-middleware/dist/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vue-route-middleware/dist/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var VueRouteMiddleware = function () {
+
+    /**
+     * Set instance properties and call defined 
+     * middlewares on matching routes
+     * 
+     * @param {object} definedMiddlewares 
+     * @param {object} to 
+     * @param {object} from 
+     * @param {function|undefined} next
+     * 
+     * @var {object} middlewares // predefined middlewares
+     * @var {boolean} nextHasCalled // if next was called in the middlewares
+     * @var {array} toMiddleware // arguments passed to middleware function
+     */
+    function VueRouteMiddleware(definedMiddlewares, to, from, next) {
+        var _this = this;
+
+        _classCallCheck(this, VueRouteMiddleware);
+
+        if (this._isObject(definedMiddlewares)) {
+            this.middlewares = definedMiddlewares;
+        } else {
+            this._error('Defined middlewares must be of type Object!');
+            this.middlewares = {};
+        }
+        this.to = to;
+        this.from = from;
+        this.next = next;
+        this.nextHasCalled = false;
+        if (this.to && this.to.matched) {
+            // Apply middleware if anu route matched
+            to.matched.every(function (route) {
+                return _this.applyRouteMiddlewares(route);
+            });
+        }
+        if (this.next && !this.nextHasCalled) {
+            // call next if user didnt call it
+            this.callNext();
+        }
+    }
+
+    /**
+     * Function used to pass arguments to middlewares with spred syntax
+     * 
+     * @return {array}
+     */
+
+
+    _createClass(VueRouteMiddleware, [{
+        key: 'toMiddleware',
+        value: function toMiddleware() {
+            return [this.to, this.from, this._isFunction(this.next) ? this.callNext.bind(this) : undefined];
+        }
+
+        /**
+         * Function that is passed to middleware as a next function wrapper
+         * toggling `nextHasCalled` trigger
+         * 
+         * @param  {...any} args
+         */
+
+    }, {
+        key: 'callNext',
+        value: function callNext() {
+            if (!this.nextHasCalled) this.nextHasCalled = true;
+            return this.next.apply(this, arguments);
+        }
+    }, {
+        key: 'applyRouteMiddlewares',
+
+
+        /**
+         * Fuction applying middlewares of a single route and deciding
+         * if other matched routes should be checked as well
+         * 
+         * @param {*} route 
+         * 
+         * @return {boolean}
+         */
+        value: function applyRouteMiddlewares(route) {
+            var _this2 = this;
+
+            if (route.meta && route.meta.middleware) {
+                var middlewareKeys = route.meta.middleware;
+                if (this._isArray(middlewareKeys)) {
+                    return middlewareKeys.every(function (middleware) {
+                        return _this2.applyMiddleware(middleware);
+                    });
+                } else {
+                    return this.applyMiddleware(middlewareKeys);
+                }
+            }
+            return true;
+        }
+
+        /**
+         * Function calling middlewares and deciding if middleware chain
+         * must be continued or stopped after first faliure
+         * 
+         * @param {string|function} middleware 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: 'applyMiddleware',
+        value: function applyMiddleware(middleware) {
+            var result = this.getMiddleware(middleware).apply(undefined, _toConsumableArray(this.toMiddleware()));
+            return result === undefined ? true : result;
+        }
+
+        /**
+         * Function to get middleware function.
+         * In case of function validation failure
+         * console the error and return empty function
+         * 
+         * @param {string|function} middleware 
+         * 
+         * @return {function}
+         */
+
+    }, {
+        key: 'getMiddleware',
+        value: function getMiddleware(middleware) {
+            if (this._isString(middleware)) {
+                if (this.middlewares.hasOwnProperty(middleware)) {
+                    if (this._isFunction(this.middlewares[middleware])) {
+                        return this.middlewares[middleware];
+                    } else {
+                        this._error(middleware + ' is not a function!');
+                    }
+                }
+            } else if (this._isFunction(middleware)) {
+                return middleware;
+            } else {
+                this._error('All middlewares must be functions!');
+            }
+            return function () {
+                return true;
+            };
+        }
+
+        /**
+         * @param {string} text 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: '_error',
+        value: function _error(text) {
+            console.error(this.constructor.name + ': ' + text);
+        }
+
+        /**
+         * @param {*} toCheck 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: '_isString',
+        value: function _isString(toCheck) {
+            return typeof toCheck === "string" || toCheck instanceof String;
+        }
+
+        /**
+         * @param {*} toCheck 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: '_isArray',
+        value: function _isArray(toCheck) {
+            return Array.isArray(toCheck);
+        }
+
+        /**
+         * @param {*} toCheck 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: '_isFunction',
+        value: function _isFunction(toCheck) {
+            return typeof toCheck === "function";
+        }
+
+        /**
+         * @param {*} toCheck 
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: '_isObject',
+        value: function _isObject(toCheck) {
+            return (typeof toCheck === 'undefined' ? 'undefined' : _typeof(toCheck)) === "object" && toCheck !== null;
+        }
+    }]);
+
+    return VueRouteMiddleware;
+}();
+
+;
+
+exports.default = function () {
+    var definedGroups = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    return function () {
+        for (var _len = arguments.length, toMiddleware = Array(_len), _key = 0; _key < _len; _key++) {
+            toMiddleware[_key] = arguments[_key];
+        }
+
+        return new (Function.prototype.bind.apply(VueRouteMiddleware, [null].concat([definedGroups], toMiddleware)))();
+    };
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9pbmRleC5qcyJdLCJuYW1lcyI6WyJWdWVSb3V0ZU1pZGRsZXdhcmUiLCJkZWZpbmVkTWlkZGxld2FyZXMiLCJ0byIsImZyb20iLCJuZXh0IiwiX2lzT2JqZWN0IiwibWlkZGxld2FyZXMiLCJfZXJyb3IiLCJuZXh0SGFzQ2FsbGVkIiwibWF0Y2hlZCIsImV2ZXJ5IiwiYXBwbHlSb3V0ZU1pZGRsZXdhcmVzIiwicm91dGUiLCJjYWxsTmV4dCIsIl9pc0Z1bmN0aW9uIiwiYmluZCIsInVuZGVmaW5lZCIsIm1ldGEiLCJtaWRkbGV3YXJlIiwibWlkZGxld2FyZUtleXMiLCJfaXNBcnJheSIsImFwcGx5TWlkZGxld2FyZSIsInJlc3VsdCIsImdldE1pZGRsZXdhcmUiLCJ0b01pZGRsZXdhcmUiLCJfaXNTdHJpbmciLCJoYXNPd25Qcm9wZXJ0eSIsInRleHQiLCJjb25zb2xlIiwiZXJyb3IiLCJjb25zdHJ1Y3RvciIsIm5hbWUiLCJ0b0NoZWNrIiwiU3RyaW5nIiwiQXJyYXkiLCJpc0FycmF5IiwiZGVmaW5lZEdyb3VwcyJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7SUFBTUEsa0I7O0FBRUY7Ozs7Ozs7Ozs7Ozs7QUFhQSxnQ0FBWUMsa0JBQVosRUFBZ0NDLEVBQWhDLEVBQW9DQyxJQUFwQyxFQUEwQ0MsSUFBMUMsRUFBK0M7QUFBQTs7QUFBQTs7QUFDM0MsWUFBRyxLQUFLQyxTQUFMLENBQWVKLGtCQUFmLENBQUgsRUFBc0M7QUFDbEMsaUJBQUtLLFdBQUwsR0FBbUJMLGtCQUFuQjtBQUNILFNBRkQsTUFFTztBQUNILGlCQUFLTSxNQUFMLENBQVksNkNBQVo7QUFDQSxpQkFBS0QsV0FBTCxHQUFtQixFQUFuQjtBQUNIO0FBQ0QsYUFBS0osRUFBTCxHQUFVQSxFQUFWO0FBQ0EsYUFBS0MsSUFBTCxHQUFZQSxJQUFaO0FBQ0EsYUFBS0MsSUFBTCxHQUFZQSxJQUFaO0FBQ0EsYUFBS0ksYUFBTCxHQUFxQixLQUFyQjtBQUNBLFlBQUcsS0FBS04sRUFBTCxJQUFXLEtBQUtBLEVBQUwsQ0FBUU8sT0FBdEIsRUFBOEI7QUFBRTtBQUM1QlAsZUFBR08sT0FBSCxDQUFXQyxLQUFYLENBQWlCO0FBQUEsdUJBQVMsTUFBS0MscUJBQUwsQ0FBMkJDLEtBQTNCLENBQVQ7QUFBQSxhQUFqQjtBQUNIO0FBQ0QsWUFBRyxLQUFLUixJQUFMLElBQWEsQ0FBQyxLQUFLSSxhQUF0QixFQUFvQztBQUFFO0FBQ2xDLGlCQUFLSyxRQUFMO0FBQ0g7QUFDSjs7QUFFRDs7Ozs7Ozs7O3VDQUtjO0FBQ1YsbUJBQU8sQ0FDSCxLQUFLWCxFQURGLEVBRUgsS0FBS0MsSUFGRixFQUdILEtBQUtXLFdBQUwsQ0FBaUIsS0FBS1YsSUFBdEIsSUFDSSxLQUFLUyxRQUFMLENBQWNFLElBQWQsQ0FBbUIsSUFBbkIsQ0FESixHQUMrQkMsU0FKNUIsQ0FBUDtBQU1IOztBQUVEOzs7Ozs7Ozs7bUNBTWlCO0FBQ2IsZ0JBQUcsQ0FBQyxLQUFLUixhQUFULEVBQXdCLEtBQUtBLGFBQUwsR0FBcUIsSUFBckI7QUFDeEIsbUJBQU8sS0FBS0osSUFBTCx1QkFBUDtBQUNIOzs7OztBQUVEOzs7Ozs7Ozs4Q0FRc0JRLEssRUFBTTtBQUFBOztBQUN4QixnQkFBR0EsTUFBTUssSUFBTixJQUFjTCxNQUFNSyxJQUFOLENBQVdDLFVBQTVCLEVBQXVDO0FBQ25DLG9CQUFJQyxpQkFBaUJQLE1BQU1LLElBQU4sQ0FBV0MsVUFBaEM7QUFDQSxvQkFBRyxLQUFLRSxRQUFMLENBQWNELGNBQWQsQ0FBSCxFQUFpQztBQUM3QiwyQkFBT0EsZUFBZVQsS0FBZixDQUFxQjtBQUFBLCtCQUFjLE9BQUtXLGVBQUwsQ0FBcUJILFVBQXJCLENBQWQ7QUFBQSxxQkFBckIsQ0FBUDtBQUNILGlCQUZELE1BRU87QUFDSCwyQkFBTyxLQUFLRyxlQUFMLENBQXFCRixjQUFyQixDQUFQO0FBQ0g7QUFDSjtBQUNELG1CQUFPLElBQVA7QUFDSDs7QUFFRDs7Ozs7Ozs7Ozs7d0NBUWdCRCxVLEVBQVc7QUFDdkIsZ0JBQU1JLFNBQVMsS0FBS0MsYUFBTCxDQUFtQkwsVUFBbkIsc0NBQWtDLEtBQUtNLFlBQUwsRUFBbEMsRUFBZjtBQUNBLG1CQUFPRixXQUFXTixTQUFYLEdBQXVCLElBQXZCLEdBQThCTSxNQUFyQztBQUNIOztBQUVEOzs7Ozs7Ozs7Ozs7c0NBU2NKLFUsRUFBVztBQUNyQixnQkFBRyxLQUFLTyxTQUFMLENBQWVQLFVBQWYsQ0FBSCxFQUE4QjtBQUMxQixvQkFBRyxLQUFLWixXQUFMLENBQWlCb0IsY0FBakIsQ0FBZ0NSLFVBQWhDLENBQUgsRUFBK0M7QUFDM0Msd0JBQUcsS0FBS0osV0FBTCxDQUFpQixLQUFLUixXQUFMLENBQWlCWSxVQUFqQixDQUFqQixDQUFILEVBQWtEO0FBQzlDLCtCQUFPLEtBQUtaLFdBQUwsQ0FBaUJZLFVBQWpCLENBQVA7QUFDSCxxQkFGRCxNQUVPO0FBQ0gsNkJBQUtYLE1BQUwsQ0FBWVcsYUFBVyxxQkFBdkI7QUFDSDtBQUNKO0FBQ0osYUFSRCxNQVFPLElBQUcsS0FBS0osV0FBTCxDQUFpQkksVUFBakIsQ0FBSCxFQUFpQztBQUNwQyx1QkFBT0EsVUFBUDtBQUNILGFBRk0sTUFFQTtBQUNILHFCQUFLWCxNQUFMLENBQVksb0NBQVo7QUFDSDtBQUNELG1CQUFPO0FBQUEsdUJBQU0sSUFBTjtBQUFBLGFBQVA7QUFDSDs7QUFFRDs7Ozs7Ozs7K0JBS09vQixJLEVBQUs7QUFDUkMsb0JBQVFDLEtBQVIsQ0FBYyxLQUFLQyxXQUFMLENBQWlCQyxJQUFqQixHQUF3QixJQUF4QixHQUE2QkosSUFBM0M7QUFDSDs7QUFFRDs7Ozs7Ozs7a0NBS1VLLE8sRUFBUTtBQUNkLG1CQUFPLE9BQU9BLE9BQVAsS0FBbUIsUUFBbkIsSUFBK0JBLG1CQUFtQkMsTUFBekQ7QUFDSDs7QUFFRDs7Ozs7Ozs7aUNBS1NELE8sRUFBUTtBQUNiLG1CQUFPRSxNQUFNQyxPQUFOLENBQWNILE9BQWQsQ0FBUDtBQUNIOztBQUVEOzs7Ozs7OztvQ0FLWUEsTyxFQUFRO0FBQ2hCLG1CQUFPLE9BQU9BLE9BQVAsS0FBbUIsVUFBMUI7QUFDSDs7QUFFRDs7Ozs7Ozs7a0NBS1VBLE8sRUFBUTtBQUNkLG1CQUFPLFFBQU9BLE9BQVAseUNBQU9BLE9BQVAsT0FBbUIsUUFBbkIsSUFBK0JBLFlBQVksSUFBbEQ7QUFDSDs7Ozs7O0FBQ0o7O2tCQUVjLFlBQXdCO0FBQUEsUUFBdkJJLGFBQXVCLHVFQUFQLEVBQU87O0FBQ25DLFdBQU87QUFBQSwwQ0FBSVosWUFBSjtBQUFJQSx3QkFBSjtBQUFBOztBQUFBLGtEQUF5QnhCLGtCQUF6QixpQkFBNENvQyxhQUE1QyxHQUE4RFosWUFBOUQ7QUFBQSxLQUFQO0FBQ0gsQyIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbImNsYXNzIFZ1ZVJvdXRlTWlkZGxld2FyZSB7XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBTZXQgaW5zdGFuY2UgcHJvcGVydGllcyBhbmQgY2FsbCBkZWZpbmVkIFxyXG4gICAgICogbWlkZGxld2FyZXMgb24gbWF0Y2hpbmcgcm91dGVzXHJcbiAgICAgKiBcclxuICAgICAqIEBwYXJhbSB7b2JqZWN0fSBkZWZpbmVkTWlkZGxld2FyZXMgXHJcbiAgICAgKiBAcGFyYW0ge29iamVjdH0gdG8gXHJcbiAgICAgKiBAcGFyYW0ge29iamVjdH0gZnJvbSBcclxuICAgICAqIEBwYXJhbSB7ZnVuY3Rpb258dW5kZWZpbmVkfSBuZXh0XHJcbiAgICAgKiBcclxuICAgICAqIEB2YXIge29iamVjdH0gbWlkZGxld2FyZXMgLy8gcHJlZGVmaW5lZCBtaWRkbGV3YXJlc1xyXG4gICAgICogQHZhciB7Ym9vbGVhbn0gbmV4dEhhc0NhbGxlZCAvLyBpZiBuZXh0IHdhcyBjYWxsZWQgaW4gdGhlIG1pZGRsZXdhcmVzXHJcbiAgICAgKiBAdmFyIHthcnJheX0gdG9NaWRkbGV3YXJlIC8vIGFyZ3VtZW50cyBwYXNzZWQgdG8gbWlkZGxld2FyZSBmdW5jdGlvblxyXG4gICAgICovXHJcbiAgICBjb25zdHJ1Y3RvcihkZWZpbmVkTWlkZGxld2FyZXMsIHRvLCBmcm9tLCBuZXh0KXtcclxuICAgICAgICBpZih0aGlzLl9pc09iamVjdChkZWZpbmVkTWlkZGxld2FyZXMpKXtcclxuICAgICAgICAgICAgdGhpcy5taWRkbGV3YXJlcyA9IGRlZmluZWRNaWRkbGV3YXJlcztcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICB0aGlzLl9lcnJvcignRGVmaW5lZCBtaWRkbGV3YXJlcyBtdXN0IGJlIG9mIHR5cGUgT2JqZWN0IScpO1xyXG4gICAgICAgICAgICB0aGlzLm1pZGRsZXdhcmVzID0ge307XHJcbiAgICAgICAgfVxyXG4gICAgICAgIHRoaXMudG8gPSB0bztcclxuICAgICAgICB0aGlzLmZyb20gPSBmcm9tO1xyXG4gICAgICAgIHRoaXMubmV4dCA9IG5leHQ7XHJcbiAgICAgICAgdGhpcy5uZXh0SGFzQ2FsbGVkID0gZmFsc2U7XHJcbiAgICAgICAgaWYodGhpcy50byAmJiB0aGlzLnRvLm1hdGNoZWQpeyAvLyBBcHBseSBtaWRkbGV3YXJlIGlmIGFudSByb3V0ZSBtYXRjaGVkXHJcbiAgICAgICAgICAgIHRvLm1hdGNoZWQuZXZlcnkocm91dGUgPT4gdGhpcy5hcHBseVJvdXRlTWlkZGxld2FyZXMocm91dGUpKTtcclxuICAgICAgICB9XHJcbiAgICAgICAgaWYodGhpcy5uZXh0ICYmICF0aGlzLm5leHRIYXNDYWxsZWQpeyAvLyBjYWxsIG5leHQgaWYgdXNlciBkaWRudCBjYWxsIGl0XHJcbiAgICAgICAgICAgIHRoaXMuY2FsbE5leHQoKTtcclxuICAgICAgICB9XHJcbiAgICB9XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBGdW5jdGlvbiB1c2VkIHRvIHBhc3MgYXJndW1lbnRzIHRvIG1pZGRsZXdhcmVzIHdpdGggc3ByZWQgc3ludGF4XHJcbiAgICAgKiBcclxuICAgICAqIEByZXR1cm4ge2FycmF5fVxyXG4gICAgICovXHJcbiAgICB0b01pZGRsZXdhcmUoKXtcclxuICAgICAgICByZXR1cm4gWyBcclxuICAgICAgICAgICAgdGhpcy50bywgXHJcbiAgICAgICAgICAgIHRoaXMuZnJvbSwgXHJcbiAgICAgICAgICAgIHRoaXMuX2lzRnVuY3Rpb24odGhpcy5uZXh0KSA/IFxyXG4gICAgICAgICAgICAgICAgdGhpcy5jYWxsTmV4dC5iaW5kKHRoaXMpIDogdW5kZWZpbmVkXHJcbiAgICAgICAgXTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEZ1bmN0aW9uIHRoYXQgaXMgcGFzc2VkIHRvIG1pZGRsZXdhcmUgYXMgYSBuZXh0IGZ1bmN0aW9uIHdyYXBwZXJcclxuICAgICAqIHRvZ2dsaW5nIGBuZXh0SGFzQ2FsbGVkYCB0cmlnZ2VyXHJcbiAgICAgKiBcclxuICAgICAqIEBwYXJhbSAgey4uLmFueX0gYXJnc1xyXG4gICAgICovXHJcbiAgICBjYWxsTmV4dCguLi5hcmdzKXtcclxuICAgICAgICBpZighdGhpcy5uZXh0SGFzQ2FsbGVkKSB0aGlzLm5leHRIYXNDYWxsZWQgPSB0cnVlO1xyXG4gICAgICAgIHJldHVybiB0aGlzLm5leHQoLi4uYXJncyk7XHJcbiAgICB9O1xyXG5cclxuICAgIC8qKlxyXG4gICAgICogRnVjdGlvbiBhcHBseWluZyBtaWRkbGV3YXJlcyBvZiBhIHNpbmdsZSByb3V0ZSBhbmQgZGVjaWRpbmdcclxuICAgICAqIGlmIG90aGVyIG1hdGNoZWQgcm91dGVzIHNob3VsZCBiZSBjaGVja2VkIGFzIHdlbGxcclxuICAgICAqIFxyXG4gICAgICogQHBhcmFtIHsqfSByb3V0ZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgYXBwbHlSb3V0ZU1pZGRsZXdhcmVzKHJvdXRlKXtcclxuICAgICAgICBpZihyb3V0ZS5tZXRhICYmIHJvdXRlLm1ldGEubWlkZGxld2FyZSl7XHJcbiAgICAgICAgICAgIGxldCBtaWRkbGV3YXJlS2V5cyA9IHJvdXRlLm1ldGEubWlkZGxld2FyZTtcclxuICAgICAgICAgICAgaWYodGhpcy5faXNBcnJheShtaWRkbGV3YXJlS2V5cykpe1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIG1pZGRsZXdhcmVLZXlzLmV2ZXJ5KG1pZGRsZXdhcmUgPT4gdGhpcy5hcHBseU1pZGRsZXdhcmUobWlkZGxld2FyZSkpO1xyXG4gICAgICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIHRoaXMuYXBwbHlNaWRkbGV3YXJlKG1pZGRsZXdhcmVLZXlzKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICByZXR1cm4gdHJ1ZTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEZ1bmN0aW9uIGNhbGxpbmcgbWlkZGxld2FyZXMgYW5kIGRlY2lkaW5nIGlmIG1pZGRsZXdhcmUgY2hhaW5cclxuICAgICAqIG11c3QgYmUgY29udGludWVkIG9yIHN0b3BwZWQgYWZ0ZXIgZmlyc3QgZmFsaXVyZVxyXG4gICAgICogXHJcbiAgICAgKiBAcGFyYW0ge3N0cmluZ3xmdW5jdGlvbn0gbWlkZGxld2FyZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgYXBwbHlNaWRkbGV3YXJlKG1pZGRsZXdhcmUpe1xyXG4gICAgICAgIGNvbnN0IHJlc3VsdCA9IHRoaXMuZ2V0TWlkZGxld2FyZShtaWRkbGV3YXJlKSguLi50aGlzLnRvTWlkZGxld2FyZSgpKTtcclxuICAgICAgICByZXR1cm4gcmVzdWx0ID09PSB1bmRlZmluZWQgPyB0cnVlIDogcmVzdWx0O1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogRnVuY3Rpb24gdG8gZ2V0IG1pZGRsZXdhcmUgZnVuY3Rpb24uXHJcbiAgICAgKiBJbiBjYXNlIG9mIGZ1bmN0aW9uIHZhbGlkYXRpb24gZmFpbHVyZVxyXG4gICAgICogY29uc29sZSB0aGUgZXJyb3IgYW5kIHJldHVybiBlbXB0eSBmdW5jdGlvblxyXG4gICAgICogXHJcbiAgICAgKiBAcGFyYW0ge3N0cmluZ3xmdW5jdGlvbn0gbWlkZGxld2FyZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7ZnVuY3Rpb259XHJcbiAgICAgKi9cclxuICAgIGdldE1pZGRsZXdhcmUobWlkZGxld2FyZSl7XHJcbiAgICAgICAgaWYodGhpcy5faXNTdHJpbmcobWlkZGxld2FyZSkpe1xyXG4gICAgICAgICAgICBpZih0aGlzLm1pZGRsZXdhcmVzLmhhc093blByb3BlcnR5KG1pZGRsZXdhcmUpKXtcclxuICAgICAgICAgICAgICAgIGlmKHRoaXMuX2lzRnVuY3Rpb24odGhpcy5taWRkbGV3YXJlc1ttaWRkbGV3YXJlXSkpe1xyXG4gICAgICAgICAgICAgICAgICAgIHJldHVybiB0aGlzLm1pZGRsZXdhcmVzW21pZGRsZXdhcmVdO1xyXG4gICAgICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgICAgICB0aGlzLl9lcnJvcihtaWRkbGV3YXJlKycgaXMgbm90IGEgZnVuY3Rpb24hJyk7XHJcbiAgICAgICAgICAgICAgICB9XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9IGVsc2UgaWYodGhpcy5faXNGdW5jdGlvbihtaWRkbGV3YXJlKSkge1xyXG4gICAgICAgICAgICByZXR1cm4gbWlkZGxld2FyZTtcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICB0aGlzLl9lcnJvcignQWxsIG1pZGRsZXdhcmVzIG11c3QgYmUgZnVuY3Rpb25zIScpO1xyXG4gICAgICAgIH1cclxuICAgICAgICByZXR1cm4gKCkgPT4gdHJ1ZTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSB0ZXh0IFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfZXJyb3IodGV4dCl7XHJcbiAgICAgICAgY29uc29sZS5lcnJvcih0aGlzLmNvbnN0cnVjdG9yLm5hbWUgKyAnOiAnK3RleHQpO1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogQHBhcmFtIHsqfSB0b0NoZWNrIFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfaXNTdHJpbmcodG9DaGVjayl7XHJcbiAgICAgICAgcmV0dXJuIHR5cGVvZiB0b0NoZWNrID09PSBcInN0cmluZ1wiIHx8IHRvQ2hlY2sgaW5zdGFuY2VvZiBTdHJpbmc7XHJcbiAgICB9XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBAcGFyYW0geyp9IHRvQ2hlY2sgXHJcbiAgICAgKiBcclxuICAgICAqIEByZXR1cm4ge2Jvb2xlYW59XHJcbiAgICAgKi9cclxuICAgIF9pc0FycmF5KHRvQ2hlY2spe1xyXG4gICAgICAgIHJldHVybiBBcnJheS5pc0FycmF5KHRvQ2hlY2spO1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogQHBhcmFtIHsqfSB0b0NoZWNrIFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfaXNGdW5jdGlvbih0b0NoZWNrKXtcclxuICAgICAgICByZXR1cm4gdHlwZW9mIHRvQ2hlY2sgPT09IFwiZnVuY3Rpb25cIjtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEBwYXJhbSB7Kn0gdG9DaGVjayBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgX2lzT2JqZWN0KHRvQ2hlY2spe1xyXG4gICAgICAgIHJldHVybiB0eXBlb2YgdG9DaGVjayA9PT0gXCJvYmplY3RcIiAmJiB0b0NoZWNrICE9PSBudWxsO1xyXG4gICAgfVxyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgKGRlZmluZWRHcm91cHMgPSB7fSkgPT4ge1xyXG4gICAgcmV0dXJuICguLi50b01pZGRsZXdhcmUpID0+IG5ldyBWdWVSb3V0ZU1pZGRsZXdhcmUoZGVmaW5lZEdyb3VwcywgLi4udG9NaWRkbGV3YXJlKTtcclxufTsiXX0=
 
 /***/ }),
 
@@ -53911,10 +55364,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
-/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
-/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
-/* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
-/* harmony import */ var _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/DashboardComponent */ "./resources/js/components/DashboardComponent.vue");
+/* harmony import */ var _middlewares_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/auth */ "./resources/js/middlewares/auth.js");
+/* harmony import */ var vue_route_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-route-middleware */ "./node_modules/vue-route-middleware/dist/index.js");
+/* harmony import */ var vue_route_middleware__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_route_middleware__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
+/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
+/* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
+/* harmony import */ var _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/DashboardComponent */ "./resources/js/components/DashboardComponent.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -53930,6 +55392,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
+
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 
@@ -53941,21 +55405,42 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '/',
     name: 'home',
-    component: _components_HomeComponent__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _components_HomeComponent__WEBPACK_IMPORTED_MODULE_8__["default"],
+    meta: {
+      middleware: [_middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["unauthenticated"]]
+    }
   }, {
     path: '/example',
     name: 'example',
-    component: _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_7__["default"]
+    component: _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_9__["default"]
   }, {
     path: '/dashboard',
     name: 'dashboard',
-    component: _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_8__["default"]
+    component: _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_10__["default"],
+    meta: {
+      middleware: [_middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["authenticated"]]
+    }
+  }, {
+    path: '*',
+    redirect: '/'
   }]
+});
+router.beforeEach(function (to, from, next) {
+  if (!to.meta.middleware) {
+    return next();
+  }
+
+  var middleware = to.meta.middleware;
+  var context = {
+    next: next,
+    router: router
+  };
+  return middleware[0](_objectSpread({}, context));
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    App: _components_App__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _components_App__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   router: router,
   mode: 'history',
@@ -54354,6 +55839,181 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/middlewares/auth.js":
+/*!******************************************!*\
+  !*** ./resources/js/middlewares/auth.js ***!
+  \******************************************/
+/*! exports provided: authenticated, unauthenticated */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authenticated", function() { return authenticated; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unauthenticated", function() { return unauthenticated; });
+function authenticated(_ref) {
+  var next = _ref.next,
+      router = _ref.router;
+  console.log(localStorage.getItem('token'));
+
+  if (!localStorage.getItem('token')) {
+    return router.push({
+      name: 'login'
+    });
+  }
+
+  return next();
+}
+function unauthenticated(_ref2) {
+  var next = _ref2.next,
+      router = _ref2.router;
+
+  if (localStorage.getItem('token')) {
+    return router.push({
+      name: "dashboard"
+    });
+  }
+
+  return next();
+}
+
+/***/ }),
+
+/***/ "./resources/js/services/auth-service.js":
+/*!***********************************************!*\
+  !*** ./resources/js/services/auth-service.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data-service */ "./resources/js/services/data-service.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var AuthService = /*#__PURE__*/function () {
+  function AuthService() {
+    _classCallCheck(this, AuthService);
+  }
+
+  _createClass(AuthService, [{
+    key: "login",
+    value: function () {
+      var _login = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(user) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                return _context.abrupt("return", axios.post('login', _objectSpread({}, user)).then(function (response) {
+                  localStorage.setItem('token', 'Bearer ' + response.data.data.token);
+                  return response.data.data.user;
+                })["catch"](function (error) {
+                  return Promise.reject(error);
+                }));
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function login(_x) {
+        return _login.apply(this, arguments);
+      }
+
+      return login;
+    }()
+  }, {
+    key: "logOut",
+    value: function logOut() {
+      localStorage.removeItem('token');
+    }
+  }, {
+    key: "register",
+    value: function register() {
+      axios.post('user', _objectSpread({}, user)).then(function (response) {
+        localStorage.setItem('token', 'Bearer ' + response.data.data.token);
+        return response.data;
+      });
+    }
+  }, {
+    key: "getAuthUser",
+    value: function getAuthUser() {
+      axios.post(' get-auth-user', {}, {
+        headers: _data_service__WEBPACK_IMPORTED_MODULE_1__["default"].authHeader()
+      }).then(function (response) {
+        localStorage.setItem('token', 'Bearer ' + response.data.data.token);
+        return response.data;
+      });
+    }
+  }]);
+
+  return AuthService;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (new AuthService());
+
+/***/ }),
+
+/***/ "./resources/js/services/data-service.js":
+/*!***********************************************!*\
+  !*** ./resources/js/services/data-service.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var DataService = /*#__PURE__*/function () {
+  function DataService() {
+    _classCallCheck(this, DataService);
+  }
+
+  _createClass(DataService, [{
+    key: "authHeader",
+    value: function authHeader() {
+      var token = localStorage.getItem('token');
+      return token ? {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      } : {};
+    }
+  }]);
+
+  return DataService;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (new DataService());
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -54363,9 +56023,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/auth-service */ "./resources/js/services/auth-service.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    user: {}
+    user: {},
+    status: {}
   },
   getters: {
     getUserFromState: function getUserFromState(state) {
@@ -54375,22 +56044,43 @@ __webpack_require__.r(__webpack_exports__);
   },
   actions: {
     getUser: function getUser(context) {
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
-      };
-      axios.post("get-auth-user", {}, {
-        headers: headers
-      }).then(function (response) {
-        context.commit("user", response.data.data);
+      return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].getAuthUser().then(function (user) {
+        return context.commit('foundUser', user);
       })["catch"](function (error) {
-        console.log(error.response);
+        return console.log(error);
+      });
+    },
+    login: function login(context, formData) {
+      return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].login(_objectSpread({}, formData)).then(function (user) {
+        context.commit('loginSuccessful', user);
+        return Promise.resolve(user);
+      })["catch"](function (error) {
+        context.commit('loginFailure');
+        return Promise.reject(error);
       });
     }
   },
   mutations: {
-    user: function user(state, data) {
-      return state.user = data;
+    foundUser: function foundUser(state, data) {
+      state.user = data;
+    },
+    loginSuccessful: function loginSuccessful(state, user) {
+      state.status.loggedIn = true;
+      state.user = user;
+    },
+    loginFailure: function loginFailure(state) {
+      state.status.loggedIn = false;
+      state.user = null;
+    },
+    logout: function logout(state) {
+      state.status.loggedIn = false;
+      state.user = null;
+    },
+    registerSuccess: function registerSuccess(state) {
+      state.status.loggedIn = false;
+    },
+    registerFailure: function registerFailure(state) {
+      state.status.loggedIn = false;
     }
   }
 });
