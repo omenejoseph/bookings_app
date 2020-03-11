@@ -8,6 +8,9 @@ export default {
     getters: {
         getUserFromState(state){ //take parameter state
             return state.user
+        },
+        getLoginStatus(state){
+            return state.status;
         }
     },
     actions: {
@@ -19,6 +22,18 @@ export default {
         login(context, formData){
             return AuthService.login({... formData})
                 .then(user => {
+                    context.commit('loginSuccessful', user);
+                    return Promise.resolve(user);
+                })
+                .catch(error => {
+                    context.commit('loginFailure');
+                    return Promise.reject(error);
+                });
+        },
+        register(context, formData){
+            return AuthService.register({... formData})
+                .then(user => {
+                    console.log(user);
                     context.commit('loginSuccessful', user);
                     return Promise.resolve(user);
                 })

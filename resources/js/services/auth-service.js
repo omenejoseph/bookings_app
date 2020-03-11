@@ -1,7 +1,7 @@
 import DataService from './data-service';
 class AuthService {
 
-    async login(user){
+    login(user){
         return axios.post('login', {... user})
         .then(response => {
             localStorage.setItem('token', 'Bearer ' + response.data.data.token);
@@ -14,12 +14,12 @@ class AuthService {
         localStorage.removeItem('token');
     }
 
-    register(){
-        axios.post('user', {... user})
+    register(user){
+        return axios.post('user', {... user})
             .then(response => {
-                localStorage.setItem('token', 'Bearer ' + response.data.data.token);
-                return response.data;
-            });
+                return this.login(user);
+            })
+            .catch((error) => Promise.reject(error));
     }
 
     getAuthUser(){

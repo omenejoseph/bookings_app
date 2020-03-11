@@ -13,7 +13,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Password</label>
-                            <div v-if="errors.password" class="text-danger">{{errors.username}}</div>
+                            <div v-if="errors.password" class="text-danger">{{errors.password}}</div>
                             <input v-model="formData.password" type="password" class="form-control" placeholder="Password">
                         </div>
                         <div @click="submit()" class="btn btn-outline-primary btn-block">Submit</div>
@@ -91,7 +91,6 @@
 
 <script>
     import NavBar from "./elements/Nav-bar";
-    import AuthService from "../services/auth-service";
     export default {
         name: "HomeComponent",
         components: {NavBar},
@@ -109,19 +108,27 @@
         methods:{
             submit: function(){
                 this.clearErrors();
-                console.log(this.formData);
                 this.$store.dispatch('login', this.formData)
                     .then(() => this.$router.push({name: "dashboard"}))
                     .catch((error) => {
                         console.log(error);
-                        let serverError = error.response;
-                        this.handleErrorsObject(serverError);
+                        this.handleErrorsObject(error);
                     });
             },
             register: function(){
                 this.clearErrors();
                 this.formData.role = "user";
-                // AuthService.register(this.user);
+                this.$store.dispatch('register', this.formData)
+                    .then(()=>{
+                        let loggedInState = this.$store.getters.getLoginStatus;
+                        if (loggedInState.loggedIn){
+                            this.$router.push({name: 'dashboard'});
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.handleErrorsObject(error);
+                    });
             },
             switchToRegister: function (event) {
                 event.preventDefault();
@@ -135,15 +142,18 @@
             },
             handleErrorsObject: function (error) {
                 const serverError = error.response.data;
+                console.log(serverError);
                 this.errorString = "You have some errors in your form";
                 this.errors.username = serverError.errors.username[0];
                 this.errors.password = serverError.errors.password[0];
-                this.errors.first_name = serverError.errors.first_name[0];
-                this.errors.last_name = serverError.errors.last_name[0];
-                this.errors.email = serverError.errors.email[0];
-                this.errors.phone = serverError.errors.phone[0];
-                this.errors.gender = serverError.errors.gender[0];
-                this.errors.title = serverError.errors.title[0];
+                if (!this.login){
+                    this.errors.first_name = serverError.errors.first_name[0];
+                    this.errors.last_name = serverError.errors.last_name[0];
+                    this.errors.email = serverError.errors.email[0];
+                    this.errors.phone = serverError.errors.phone[0];
+                    this.errors.gender = serverError.errors.gender[0];
+                    this.errors.title = serverError.errors.title[0];
+                }
             },
             clearErrors: function () {
                 this.errors = {};

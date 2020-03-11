@@ -20,7 +20,9 @@
             }
         },
         components: {},
-        mounted: {},
+        mounted(){
+
+        },
         methods: {}
     }
 </script>
