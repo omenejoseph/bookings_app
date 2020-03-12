@@ -15,4 +15,5 @@ interface BookingContract
    public function read(Booking $booking);
    public function update(Booking $booking);
    public function destroy(Booking $booking);
+   public function list();
 }

@@ -1945,21 +1945,134 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "DashboardComponent",
   data: function data() {
     return {
-      user: {}
+      user: {},
+      viewBookings: true,
+      viewUsers: false
     };
   },
   computed: {
     currentUser: function currentUser() {
       return this.$store.getters.getUserFromState;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.getLoginStatus.loggedIn;
+    },
+    bookingsList: function bookingsList() {
+      return this.$store.getters.getBookingsList;
+    },
+    usersList: function usersList() {
+      return this.$store.getters.getUsersList;
     }
   },
   components: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    iWantToViewUsers: function iWantToViewUsers(event) {
+      event.preventDefault();
+      this.viewUsers = true;
+      this.viewBookings = false;
+    },
+    iWantToViewBookings: function iWantToViewBookings(event) {
+      event.preventDefault();
+      this.viewUsers = false;
+      this.viewBookings = true;
+    }
+  },
+  created: function created() {
+    console.log(this.currentUser, this.isLoggedIn);
+
+    if (this.currentUser == null && !this.isLoggedIn) {
+      this.$router.push({
+        name: "home"
+      });
+    }
+
+    if (this.bookingsList == null) {
+      this.$store.dispatch('getBookings');
+    }
+
+    if (this.usersList == null) {
+      this.$store.dispatch('getUsers');
+    }
+  }
 });
 
 /***/ }),
@@ -2008,7 +2121,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_Nav_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./elements/Nav-bar */ "./resources/js/components/elements/Nav-bar.vue");
-//
 //
 //
 //
@@ -2194,7 +2306,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/auth-service */ "./resources/js/services/auth-service.js");
 //
 //
 //
@@ -2202,17 +2313,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Nav-bar",
   methods: {
     logOut: function logOut(event) {
+      var _this = this;
+
       event.preventDefault();
-      _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].logOut();
-      this.$router.push({
-        name: "home"
+      this.$store.dispatch('logOut').then(function () {
+        return _this.$router.push({
+          name: "home"
+        });
       });
     }
+  },
+  computed: {
+    currentUser: function currentUser() {
+      return this.$store.getters.getUserFromState;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.getLoginStatus.loggedIn;
+    }
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('getUser');
   }
 });
 
@@ -6745,6 +6872,112 @@ __webpack_require__.r(__webpack_exports__);
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.placeholders[data-v-01ab55f4] {\n    margin-bottom: 30px;\n    text-align: center;\n}\n.placeholders h4[data-v-01ab55f4] {\n    margin-bottom: 0;\n}\n.placeholder[data-v-01ab55f4] {\n    margin-bottom: 20px;\n}\n.placeholder img[data-v-01ab55f4] {\n    display: inline-block;\n    border-radius: 50%;\n}\n.counter[data-v-01ab55f4]{\n    padding: 0px;\n    margin-top: -35px;\n    color: white;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/css-base.js":
+/*!*************************************************!*\
+  !*** ./node_modules/css-loader/lib/css-base.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
 
 
 /***/ }),
@@ -37498,6 +37731,545 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/*!****************************************************!*\
+  !*** ./node_modules/style-loader/lib/addStyles.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(/*! ./urls */ "./node_modules/style-loader/lib/urls.js");
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertAt.before, target);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function getNonce() {
+	if (false) {}
+
+	return __webpack_require__.nc;
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = typeof options.transform === 'function'
+		 ? options.transform(obj.css) 
+		 : options.transform.default(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/*!***********************************************!*\
+  !*** ./node_modules/style-loader/lib/urls.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/timers-browserify/main.js":
 /*!************************************************!*\
   !*** ./node_modules/timers-browserify/main.js ***!
@@ -37621,15 +38393,214 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h1", [
-      _vm._v("Welcome to your Dashboard "),
-      _c("span", { staticClass: "text-capitalize" }, [
-        _vm._v("\n        " + _vm._s(_vm.currentUser.username) + "\n    ")
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
+          },
+          [
+            _c("h1", { staticClass: "page-header pb-4 text-center pt-3" }, [
+              _vm._v("Welcome to your Dashboard")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row placeholders justify-content-between" },
+              [
+                _c("div", { staticClass: "col-xs-6 col-sm-3 placeholder" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: { click: _vm.iWantToViewBookings }
+                    },
+                    [
+                      _c("div", [
+                        _c("img", {
+                          staticClass: "img-responsive",
+                          attrs: {
+                            src:
+                              "data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==",
+                            width: "50",
+                            height: "50",
+                            alt: "Generic placeholder thumbnail"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.bookingsList
+                          ? _c("p", { staticClass: "counter" }, [
+                              _vm._v(_vm._s(_vm.bookingsList.length))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("h4", [_vm._v("Bookings")])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "text-muted" },
+                    [
+                      _c(
+                        "router-link",
+                        { attrs: { to: { name: "dashboard" } } },
+                        [_vm._v("Add New Booking")]
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-xs-6 col-sm-3 placeholder" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: { click: _vm.iWantToViewUsers }
+                    },
+                    [
+                      _c("div", [
+                        _c("img", {
+                          staticClass: "img-responsive",
+                          attrs: {
+                            src:
+                              "data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==",
+                            width: "50",
+                            height: "50",
+                            alt: "Generic placeholder thumbnail"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.usersList
+                          ? _c("p", { staticClass: "counter" }, [
+                              _vm._v(_vm._s(_vm.usersList.length))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("h4", [_vm._v("Users")])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "text-muted" },
+                    [
+                      _c(
+                        "router-link",
+                        { attrs: { to: { name: "dashboard" } } },
+                        [_vm._v("Add New User")]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm.viewBookings
+              ? _c("div", [
+                  _c("h2", { staticClass: "sub-header" }, [_vm._v("Bookings")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c("table", { staticClass: "table table-striped" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.bookingsList, function(booking, index) {
+                          return _c("tr", { key: booking.id }, [
+                            _c("td", [_vm._v(_vm._s(index + 1))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(booking.title))])
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.viewUsers
+              ? _c("div", [
+                  _c("h2", { staticClass: "sub-header" }, [_vm._v("Users")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c("table", { staticClass: "table table-striped" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.usersList, function(user, index) {
+                          return _c("tr", { key: user.id }, [
+                            _c("td", [_vm._v(_vm._s(index + 1))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(user.title))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(user.first_name + " " + user.last_name)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(user.username))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(user.email))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(user.phone))])
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e()
+          ]
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("title")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("title")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("username")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("phone")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -38203,7 +39174,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
+    {
+      staticClass:
+        "navbar navbar-expand-lg navbar-dark bg-dark justify-content-between"
+    },
     [
       _c(
         "router-link",
@@ -38211,11 +39185,22 @@ var render = function() {
         [_vm._v("Bookings App")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn-outline-primary", on: { click: _vm.logOut } },
-        [_vm._v("sign-out")]
-      )
+      _c("div", [
+        _vm.isLoggedIn
+          ? _c("span", { staticClass: "text-light pr-2" }, [
+              _vm._v("Hello " + _vm._s(_vm.currentUser.username))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn-outline-primary float-right",
+            on: { click: _vm.logOut }
+          },
+          [_vm._v("sign-out")]
+        )
+      ])
     ],
     1
   )
@@ -38331,252 +39316,6 @@ function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ "./node_modules/vue-route-middleware/dist/index.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/vue-route-middleware/dist/index.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var VueRouteMiddleware = function () {
-
-    /**
-     * Set instance properties and call defined 
-     * middlewares on matching routes
-     * 
-     * @param {object} definedMiddlewares 
-     * @param {object} to 
-     * @param {object} from 
-     * @param {function|undefined} next
-     * 
-     * @var {object} middlewares // predefined middlewares
-     * @var {boolean} nextHasCalled // if next was called in the middlewares
-     * @var {array} toMiddleware // arguments passed to middleware function
-     */
-    function VueRouteMiddleware(definedMiddlewares, to, from, next) {
-        var _this = this;
-
-        _classCallCheck(this, VueRouteMiddleware);
-
-        if (this._isObject(definedMiddlewares)) {
-            this.middlewares = definedMiddlewares;
-        } else {
-            this._error('Defined middlewares must be of type Object!');
-            this.middlewares = {};
-        }
-        this.to = to;
-        this.from = from;
-        this.next = next;
-        this.nextHasCalled = false;
-        if (this.to && this.to.matched) {
-            // Apply middleware if anu route matched
-            to.matched.every(function (route) {
-                return _this.applyRouteMiddlewares(route);
-            });
-        }
-        if (this.next && !this.nextHasCalled) {
-            // call next if user didnt call it
-            this.callNext();
-        }
-    }
-
-    /**
-     * Function used to pass arguments to middlewares with spred syntax
-     * 
-     * @return {array}
-     */
-
-
-    _createClass(VueRouteMiddleware, [{
-        key: 'toMiddleware',
-        value: function toMiddleware() {
-            return [this.to, this.from, this._isFunction(this.next) ? this.callNext.bind(this) : undefined];
-        }
-
-        /**
-         * Function that is passed to middleware as a next function wrapper
-         * toggling `nextHasCalled` trigger
-         * 
-         * @param  {...any} args
-         */
-
-    }, {
-        key: 'callNext',
-        value: function callNext() {
-            if (!this.nextHasCalled) this.nextHasCalled = true;
-            return this.next.apply(this, arguments);
-        }
-    }, {
-        key: 'applyRouteMiddlewares',
-
-
-        /**
-         * Fuction applying middlewares of a single route and deciding
-         * if other matched routes should be checked as well
-         * 
-         * @param {*} route 
-         * 
-         * @return {boolean}
-         */
-        value: function applyRouteMiddlewares(route) {
-            var _this2 = this;
-
-            if (route.meta && route.meta.middleware) {
-                var middlewareKeys = route.meta.middleware;
-                if (this._isArray(middlewareKeys)) {
-                    return middlewareKeys.every(function (middleware) {
-                        return _this2.applyMiddleware(middleware);
-                    });
-                } else {
-                    return this.applyMiddleware(middlewareKeys);
-                }
-            }
-            return true;
-        }
-
-        /**
-         * Function calling middlewares and deciding if middleware chain
-         * must be continued or stopped after first faliure
-         * 
-         * @param {string|function} middleware 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: 'applyMiddleware',
-        value: function applyMiddleware(middleware) {
-            var result = this.getMiddleware(middleware).apply(undefined, _toConsumableArray(this.toMiddleware()));
-            return result === undefined ? true : result;
-        }
-
-        /**
-         * Function to get middleware function.
-         * In case of function validation failure
-         * console the error and return empty function
-         * 
-         * @param {string|function} middleware 
-         * 
-         * @return {function}
-         */
-
-    }, {
-        key: 'getMiddleware',
-        value: function getMiddleware(middleware) {
-            if (this._isString(middleware)) {
-                if (this.middlewares.hasOwnProperty(middleware)) {
-                    if (this._isFunction(this.middlewares[middleware])) {
-                        return this.middlewares[middleware];
-                    } else {
-                        this._error(middleware + ' is not a function!');
-                    }
-                }
-            } else if (this._isFunction(middleware)) {
-                return middleware;
-            } else {
-                this._error('All middlewares must be functions!');
-            }
-            return function () {
-                return true;
-            };
-        }
-
-        /**
-         * @param {string} text 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: '_error',
-        value: function _error(text) {
-            console.error(this.constructor.name + ': ' + text);
-        }
-
-        /**
-         * @param {*} toCheck 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: '_isString',
-        value: function _isString(toCheck) {
-            return typeof toCheck === "string" || toCheck instanceof String;
-        }
-
-        /**
-         * @param {*} toCheck 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: '_isArray',
-        value: function _isArray(toCheck) {
-            return Array.isArray(toCheck);
-        }
-
-        /**
-         * @param {*} toCheck 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: '_isFunction',
-        value: function _isFunction(toCheck) {
-            return typeof toCheck === "function";
-        }
-
-        /**
-         * @param {*} toCheck 
-         * 
-         * @return {boolean}
-         */
-
-    }, {
-        key: '_isObject',
-        value: function _isObject(toCheck) {
-            return (typeof toCheck === 'undefined' ? 'undefined' : _typeof(toCheck)) === "object" && toCheck !== null;
-        }
-    }]);
-
-    return VueRouteMiddleware;
-}();
-
-;
-
-exports.default = function () {
-    var definedGroups = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    return function () {
-        for (var _len = arguments.length, toMiddleware = Array(_len), _key = 0; _key < _len; _key++) {
-            toMiddleware[_key] = arguments[_key];
-        }
-
-        return new (Function.prototype.bind.apply(VueRouteMiddleware, [null].concat([definedGroups], toMiddleware)))();
-    };
-};
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9pbmRleC5qcyJdLCJuYW1lcyI6WyJWdWVSb3V0ZU1pZGRsZXdhcmUiLCJkZWZpbmVkTWlkZGxld2FyZXMiLCJ0byIsImZyb20iLCJuZXh0IiwiX2lzT2JqZWN0IiwibWlkZGxld2FyZXMiLCJfZXJyb3IiLCJuZXh0SGFzQ2FsbGVkIiwibWF0Y2hlZCIsImV2ZXJ5IiwiYXBwbHlSb3V0ZU1pZGRsZXdhcmVzIiwicm91dGUiLCJjYWxsTmV4dCIsIl9pc0Z1bmN0aW9uIiwiYmluZCIsInVuZGVmaW5lZCIsIm1ldGEiLCJtaWRkbGV3YXJlIiwibWlkZGxld2FyZUtleXMiLCJfaXNBcnJheSIsImFwcGx5TWlkZGxld2FyZSIsInJlc3VsdCIsImdldE1pZGRsZXdhcmUiLCJ0b01pZGRsZXdhcmUiLCJfaXNTdHJpbmciLCJoYXNPd25Qcm9wZXJ0eSIsInRleHQiLCJjb25zb2xlIiwiZXJyb3IiLCJjb25zdHJ1Y3RvciIsIm5hbWUiLCJ0b0NoZWNrIiwiU3RyaW5nIiwiQXJyYXkiLCJpc0FycmF5IiwiZGVmaW5lZEdyb3VwcyJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7SUFBTUEsa0I7O0FBRUY7Ozs7Ozs7Ozs7Ozs7QUFhQSxnQ0FBWUMsa0JBQVosRUFBZ0NDLEVBQWhDLEVBQW9DQyxJQUFwQyxFQUEwQ0MsSUFBMUMsRUFBK0M7QUFBQTs7QUFBQTs7QUFDM0MsWUFBRyxLQUFLQyxTQUFMLENBQWVKLGtCQUFmLENBQUgsRUFBc0M7QUFDbEMsaUJBQUtLLFdBQUwsR0FBbUJMLGtCQUFuQjtBQUNILFNBRkQsTUFFTztBQUNILGlCQUFLTSxNQUFMLENBQVksNkNBQVo7QUFDQSxpQkFBS0QsV0FBTCxHQUFtQixFQUFuQjtBQUNIO0FBQ0QsYUFBS0osRUFBTCxHQUFVQSxFQUFWO0FBQ0EsYUFBS0MsSUFBTCxHQUFZQSxJQUFaO0FBQ0EsYUFBS0MsSUFBTCxHQUFZQSxJQUFaO0FBQ0EsYUFBS0ksYUFBTCxHQUFxQixLQUFyQjtBQUNBLFlBQUcsS0FBS04sRUFBTCxJQUFXLEtBQUtBLEVBQUwsQ0FBUU8sT0FBdEIsRUFBOEI7QUFBRTtBQUM1QlAsZUFBR08sT0FBSCxDQUFXQyxLQUFYLENBQWlCO0FBQUEsdUJBQVMsTUFBS0MscUJBQUwsQ0FBMkJDLEtBQTNCLENBQVQ7QUFBQSxhQUFqQjtBQUNIO0FBQ0QsWUFBRyxLQUFLUixJQUFMLElBQWEsQ0FBQyxLQUFLSSxhQUF0QixFQUFvQztBQUFFO0FBQ2xDLGlCQUFLSyxRQUFMO0FBQ0g7QUFDSjs7QUFFRDs7Ozs7Ozs7O3VDQUtjO0FBQ1YsbUJBQU8sQ0FDSCxLQUFLWCxFQURGLEVBRUgsS0FBS0MsSUFGRixFQUdILEtBQUtXLFdBQUwsQ0FBaUIsS0FBS1YsSUFBdEIsSUFDSSxLQUFLUyxRQUFMLENBQWNFLElBQWQsQ0FBbUIsSUFBbkIsQ0FESixHQUMrQkMsU0FKNUIsQ0FBUDtBQU1IOztBQUVEOzs7Ozs7Ozs7bUNBTWlCO0FBQ2IsZ0JBQUcsQ0FBQyxLQUFLUixhQUFULEVBQXdCLEtBQUtBLGFBQUwsR0FBcUIsSUFBckI7QUFDeEIsbUJBQU8sS0FBS0osSUFBTCx1QkFBUDtBQUNIOzs7OztBQUVEOzs7Ozs7Ozs4Q0FRc0JRLEssRUFBTTtBQUFBOztBQUN4QixnQkFBR0EsTUFBTUssSUFBTixJQUFjTCxNQUFNSyxJQUFOLENBQVdDLFVBQTVCLEVBQXVDO0FBQ25DLG9CQUFJQyxpQkFBaUJQLE1BQU1LLElBQU4sQ0FBV0MsVUFBaEM7QUFDQSxvQkFBRyxLQUFLRSxRQUFMLENBQWNELGNBQWQsQ0FBSCxFQUFpQztBQUM3QiwyQkFBT0EsZUFBZVQsS0FBZixDQUFxQjtBQUFBLCtCQUFjLE9BQUtXLGVBQUwsQ0FBcUJILFVBQXJCLENBQWQ7QUFBQSxxQkFBckIsQ0FBUDtBQUNILGlCQUZELE1BRU87QUFDSCwyQkFBTyxLQUFLRyxlQUFMLENBQXFCRixjQUFyQixDQUFQO0FBQ0g7QUFDSjtBQUNELG1CQUFPLElBQVA7QUFDSDs7QUFFRDs7Ozs7Ozs7Ozs7d0NBUWdCRCxVLEVBQVc7QUFDdkIsZ0JBQU1JLFNBQVMsS0FBS0MsYUFBTCxDQUFtQkwsVUFBbkIsc0NBQWtDLEtBQUtNLFlBQUwsRUFBbEMsRUFBZjtBQUNBLG1CQUFPRixXQUFXTixTQUFYLEdBQXVCLElBQXZCLEdBQThCTSxNQUFyQztBQUNIOztBQUVEOzs7Ozs7Ozs7Ozs7c0NBU2NKLFUsRUFBVztBQUNyQixnQkFBRyxLQUFLTyxTQUFMLENBQWVQLFVBQWYsQ0FBSCxFQUE4QjtBQUMxQixvQkFBRyxLQUFLWixXQUFMLENBQWlCb0IsY0FBakIsQ0FBZ0NSLFVBQWhDLENBQUgsRUFBK0M7QUFDM0Msd0JBQUcsS0FBS0osV0FBTCxDQUFpQixLQUFLUixXQUFMLENBQWlCWSxVQUFqQixDQUFqQixDQUFILEVBQWtEO0FBQzlDLCtCQUFPLEtBQUtaLFdBQUwsQ0FBaUJZLFVBQWpCLENBQVA7QUFDSCxxQkFGRCxNQUVPO0FBQ0gsNkJBQUtYLE1BQUwsQ0FBWVcsYUFBVyxxQkFBdkI7QUFDSDtBQUNKO0FBQ0osYUFSRCxNQVFPLElBQUcsS0FBS0osV0FBTCxDQUFpQkksVUFBakIsQ0FBSCxFQUFpQztBQUNwQyx1QkFBT0EsVUFBUDtBQUNILGFBRk0sTUFFQTtBQUNILHFCQUFLWCxNQUFMLENBQVksb0NBQVo7QUFDSDtBQUNELG1CQUFPO0FBQUEsdUJBQU0sSUFBTjtBQUFBLGFBQVA7QUFDSDs7QUFFRDs7Ozs7Ozs7K0JBS09vQixJLEVBQUs7QUFDUkMsb0JBQVFDLEtBQVIsQ0FBYyxLQUFLQyxXQUFMLENBQWlCQyxJQUFqQixHQUF3QixJQUF4QixHQUE2QkosSUFBM0M7QUFDSDs7QUFFRDs7Ozs7Ozs7a0NBS1VLLE8sRUFBUTtBQUNkLG1CQUFPLE9BQU9BLE9BQVAsS0FBbUIsUUFBbkIsSUFBK0JBLG1CQUFtQkMsTUFBekQ7QUFDSDs7QUFFRDs7Ozs7Ozs7aUNBS1NELE8sRUFBUTtBQUNiLG1CQUFPRSxNQUFNQyxPQUFOLENBQWNILE9BQWQsQ0FBUDtBQUNIOztBQUVEOzs7Ozs7OztvQ0FLWUEsTyxFQUFRO0FBQ2hCLG1CQUFPLE9BQU9BLE9BQVAsS0FBbUIsVUFBMUI7QUFDSDs7QUFFRDs7Ozs7Ozs7a0NBS1VBLE8sRUFBUTtBQUNkLG1CQUFPLFFBQU9BLE9BQVAseUNBQU9BLE9BQVAsT0FBbUIsUUFBbkIsSUFBK0JBLFlBQVksSUFBbEQ7QUFDSDs7Ozs7O0FBQ0o7O2tCQUVjLFlBQXdCO0FBQUEsUUFBdkJJLGFBQXVCLHVFQUFQLEVBQU87O0FBQ25DLFdBQU87QUFBQSwwQ0FBSVosWUFBSjtBQUFJQSx3QkFBSjtBQUFBOztBQUFBLGtEQUF5QnhCLGtCQUF6QixpQkFBNENvQyxhQUE1QyxHQUE4RFosWUFBOUQ7QUFBQSxLQUFQO0FBQ0gsQyIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbImNsYXNzIFZ1ZVJvdXRlTWlkZGxld2FyZSB7XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBTZXQgaW5zdGFuY2UgcHJvcGVydGllcyBhbmQgY2FsbCBkZWZpbmVkIFxyXG4gICAgICogbWlkZGxld2FyZXMgb24gbWF0Y2hpbmcgcm91dGVzXHJcbiAgICAgKiBcclxuICAgICAqIEBwYXJhbSB7b2JqZWN0fSBkZWZpbmVkTWlkZGxld2FyZXMgXHJcbiAgICAgKiBAcGFyYW0ge29iamVjdH0gdG8gXHJcbiAgICAgKiBAcGFyYW0ge29iamVjdH0gZnJvbSBcclxuICAgICAqIEBwYXJhbSB7ZnVuY3Rpb258dW5kZWZpbmVkfSBuZXh0XHJcbiAgICAgKiBcclxuICAgICAqIEB2YXIge29iamVjdH0gbWlkZGxld2FyZXMgLy8gcHJlZGVmaW5lZCBtaWRkbGV3YXJlc1xyXG4gICAgICogQHZhciB7Ym9vbGVhbn0gbmV4dEhhc0NhbGxlZCAvLyBpZiBuZXh0IHdhcyBjYWxsZWQgaW4gdGhlIG1pZGRsZXdhcmVzXHJcbiAgICAgKiBAdmFyIHthcnJheX0gdG9NaWRkbGV3YXJlIC8vIGFyZ3VtZW50cyBwYXNzZWQgdG8gbWlkZGxld2FyZSBmdW5jdGlvblxyXG4gICAgICovXHJcbiAgICBjb25zdHJ1Y3RvcihkZWZpbmVkTWlkZGxld2FyZXMsIHRvLCBmcm9tLCBuZXh0KXtcclxuICAgICAgICBpZih0aGlzLl9pc09iamVjdChkZWZpbmVkTWlkZGxld2FyZXMpKXtcclxuICAgICAgICAgICAgdGhpcy5taWRkbGV3YXJlcyA9IGRlZmluZWRNaWRkbGV3YXJlcztcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICB0aGlzLl9lcnJvcignRGVmaW5lZCBtaWRkbGV3YXJlcyBtdXN0IGJlIG9mIHR5cGUgT2JqZWN0IScpO1xyXG4gICAgICAgICAgICB0aGlzLm1pZGRsZXdhcmVzID0ge307XHJcbiAgICAgICAgfVxyXG4gICAgICAgIHRoaXMudG8gPSB0bztcclxuICAgICAgICB0aGlzLmZyb20gPSBmcm9tO1xyXG4gICAgICAgIHRoaXMubmV4dCA9IG5leHQ7XHJcbiAgICAgICAgdGhpcy5uZXh0SGFzQ2FsbGVkID0gZmFsc2U7XHJcbiAgICAgICAgaWYodGhpcy50byAmJiB0aGlzLnRvLm1hdGNoZWQpeyAvLyBBcHBseSBtaWRkbGV3YXJlIGlmIGFudSByb3V0ZSBtYXRjaGVkXHJcbiAgICAgICAgICAgIHRvLm1hdGNoZWQuZXZlcnkocm91dGUgPT4gdGhpcy5hcHBseVJvdXRlTWlkZGxld2FyZXMocm91dGUpKTtcclxuICAgICAgICB9XHJcbiAgICAgICAgaWYodGhpcy5uZXh0ICYmICF0aGlzLm5leHRIYXNDYWxsZWQpeyAvLyBjYWxsIG5leHQgaWYgdXNlciBkaWRudCBjYWxsIGl0XHJcbiAgICAgICAgICAgIHRoaXMuY2FsbE5leHQoKTtcclxuICAgICAgICB9XHJcbiAgICB9XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBGdW5jdGlvbiB1c2VkIHRvIHBhc3MgYXJndW1lbnRzIHRvIG1pZGRsZXdhcmVzIHdpdGggc3ByZWQgc3ludGF4XHJcbiAgICAgKiBcclxuICAgICAqIEByZXR1cm4ge2FycmF5fVxyXG4gICAgICovXHJcbiAgICB0b01pZGRsZXdhcmUoKXtcclxuICAgICAgICByZXR1cm4gWyBcclxuICAgICAgICAgICAgdGhpcy50bywgXHJcbiAgICAgICAgICAgIHRoaXMuZnJvbSwgXHJcbiAgICAgICAgICAgIHRoaXMuX2lzRnVuY3Rpb24odGhpcy5uZXh0KSA/IFxyXG4gICAgICAgICAgICAgICAgdGhpcy5jYWxsTmV4dC5iaW5kKHRoaXMpIDogdW5kZWZpbmVkXHJcbiAgICAgICAgXTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEZ1bmN0aW9uIHRoYXQgaXMgcGFzc2VkIHRvIG1pZGRsZXdhcmUgYXMgYSBuZXh0IGZ1bmN0aW9uIHdyYXBwZXJcclxuICAgICAqIHRvZ2dsaW5nIGBuZXh0SGFzQ2FsbGVkYCB0cmlnZ2VyXHJcbiAgICAgKiBcclxuICAgICAqIEBwYXJhbSAgey4uLmFueX0gYXJnc1xyXG4gICAgICovXHJcbiAgICBjYWxsTmV4dCguLi5hcmdzKXtcclxuICAgICAgICBpZighdGhpcy5uZXh0SGFzQ2FsbGVkKSB0aGlzLm5leHRIYXNDYWxsZWQgPSB0cnVlO1xyXG4gICAgICAgIHJldHVybiB0aGlzLm5leHQoLi4uYXJncyk7XHJcbiAgICB9O1xyXG5cclxuICAgIC8qKlxyXG4gICAgICogRnVjdGlvbiBhcHBseWluZyBtaWRkbGV3YXJlcyBvZiBhIHNpbmdsZSByb3V0ZSBhbmQgZGVjaWRpbmdcclxuICAgICAqIGlmIG90aGVyIG1hdGNoZWQgcm91dGVzIHNob3VsZCBiZSBjaGVja2VkIGFzIHdlbGxcclxuICAgICAqIFxyXG4gICAgICogQHBhcmFtIHsqfSByb3V0ZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgYXBwbHlSb3V0ZU1pZGRsZXdhcmVzKHJvdXRlKXtcclxuICAgICAgICBpZihyb3V0ZS5tZXRhICYmIHJvdXRlLm1ldGEubWlkZGxld2FyZSl7XHJcbiAgICAgICAgICAgIGxldCBtaWRkbGV3YXJlS2V5cyA9IHJvdXRlLm1ldGEubWlkZGxld2FyZTtcclxuICAgICAgICAgICAgaWYodGhpcy5faXNBcnJheShtaWRkbGV3YXJlS2V5cykpe1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIG1pZGRsZXdhcmVLZXlzLmV2ZXJ5KG1pZGRsZXdhcmUgPT4gdGhpcy5hcHBseU1pZGRsZXdhcmUobWlkZGxld2FyZSkpO1xyXG4gICAgICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIHRoaXMuYXBwbHlNaWRkbGV3YXJlKG1pZGRsZXdhcmVLZXlzKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICByZXR1cm4gdHJ1ZTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEZ1bmN0aW9uIGNhbGxpbmcgbWlkZGxld2FyZXMgYW5kIGRlY2lkaW5nIGlmIG1pZGRsZXdhcmUgY2hhaW5cclxuICAgICAqIG11c3QgYmUgY29udGludWVkIG9yIHN0b3BwZWQgYWZ0ZXIgZmlyc3QgZmFsaXVyZVxyXG4gICAgICogXHJcbiAgICAgKiBAcGFyYW0ge3N0cmluZ3xmdW5jdGlvbn0gbWlkZGxld2FyZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgYXBwbHlNaWRkbGV3YXJlKG1pZGRsZXdhcmUpe1xyXG4gICAgICAgIGNvbnN0IHJlc3VsdCA9IHRoaXMuZ2V0TWlkZGxld2FyZShtaWRkbGV3YXJlKSguLi50aGlzLnRvTWlkZGxld2FyZSgpKTtcclxuICAgICAgICByZXR1cm4gcmVzdWx0ID09PSB1bmRlZmluZWQgPyB0cnVlIDogcmVzdWx0O1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogRnVuY3Rpb24gdG8gZ2V0IG1pZGRsZXdhcmUgZnVuY3Rpb24uXHJcbiAgICAgKiBJbiBjYXNlIG9mIGZ1bmN0aW9uIHZhbGlkYXRpb24gZmFpbHVyZVxyXG4gICAgICogY29uc29sZSB0aGUgZXJyb3IgYW5kIHJldHVybiBlbXB0eSBmdW5jdGlvblxyXG4gICAgICogXHJcbiAgICAgKiBAcGFyYW0ge3N0cmluZ3xmdW5jdGlvbn0gbWlkZGxld2FyZSBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7ZnVuY3Rpb259XHJcbiAgICAgKi9cclxuICAgIGdldE1pZGRsZXdhcmUobWlkZGxld2FyZSl7XHJcbiAgICAgICAgaWYodGhpcy5faXNTdHJpbmcobWlkZGxld2FyZSkpe1xyXG4gICAgICAgICAgICBpZih0aGlzLm1pZGRsZXdhcmVzLmhhc093blByb3BlcnR5KG1pZGRsZXdhcmUpKXtcclxuICAgICAgICAgICAgICAgIGlmKHRoaXMuX2lzRnVuY3Rpb24odGhpcy5taWRkbGV3YXJlc1ttaWRkbGV3YXJlXSkpe1xyXG4gICAgICAgICAgICAgICAgICAgIHJldHVybiB0aGlzLm1pZGRsZXdhcmVzW21pZGRsZXdhcmVdO1xyXG4gICAgICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgICAgICB0aGlzLl9lcnJvcihtaWRkbGV3YXJlKycgaXMgbm90IGEgZnVuY3Rpb24hJyk7XHJcbiAgICAgICAgICAgICAgICB9XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9IGVsc2UgaWYodGhpcy5faXNGdW5jdGlvbihtaWRkbGV3YXJlKSkge1xyXG4gICAgICAgICAgICByZXR1cm4gbWlkZGxld2FyZTtcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICB0aGlzLl9lcnJvcignQWxsIG1pZGRsZXdhcmVzIG11c3QgYmUgZnVuY3Rpb25zIScpO1xyXG4gICAgICAgIH1cclxuICAgICAgICByZXR1cm4gKCkgPT4gdHJ1ZTtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSB0ZXh0IFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfZXJyb3IodGV4dCl7XHJcbiAgICAgICAgY29uc29sZS5lcnJvcih0aGlzLmNvbnN0cnVjdG9yLm5hbWUgKyAnOiAnK3RleHQpO1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogQHBhcmFtIHsqfSB0b0NoZWNrIFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfaXNTdHJpbmcodG9DaGVjayl7XHJcbiAgICAgICAgcmV0dXJuIHR5cGVvZiB0b0NoZWNrID09PSBcInN0cmluZ1wiIHx8IHRvQ2hlY2sgaW5zdGFuY2VvZiBTdHJpbmc7XHJcbiAgICB9XHJcblxyXG4gICAgLyoqXHJcbiAgICAgKiBAcGFyYW0geyp9IHRvQ2hlY2sgXHJcbiAgICAgKiBcclxuICAgICAqIEByZXR1cm4ge2Jvb2xlYW59XHJcbiAgICAgKi9cclxuICAgIF9pc0FycmF5KHRvQ2hlY2spe1xyXG4gICAgICAgIHJldHVybiBBcnJheS5pc0FycmF5KHRvQ2hlY2spO1xyXG4gICAgfVxyXG5cclxuICAgIC8qKlxyXG4gICAgICogQHBhcmFtIHsqfSB0b0NoZWNrIFxyXG4gICAgICogXHJcbiAgICAgKiBAcmV0dXJuIHtib29sZWFufVxyXG4gICAgICovXHJcbiAgICBfaXNGdW5jdGlvbih0b0NoZWNrKXtcclxuICAgICAgICByZXR1cm4gdHlwZW9mIHRvQ2hlY2sgPT09IFwiZnVuY3Rpb25cIjtcclxuICAgIH1cclxuXHJcbiAgICAvKipcclxuICAgICAqIEBwYXJhbSB7Kn0gdG9DaGVjayBcclxuICAgICAqIFxyXG4gICAgICogQHJldHVybiB7Ym9vbGVhbn1cclxuICAgICAqL1xyXG4gICAgX2lzT2JqZWN0KHRvQ2hlY2spe1xyXG4gICAgICAgIHJldHVybiB0eXBlb2YgdG9DaGVjayA9PT0gXCJvYmplY3RcIiAmJiB0b0NoZWNrICE9PSBudWxsO1xyXG4gICAgfVxyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgKGRlZmluZWRHcm91cHMgPSB7fSkgPT4ge1xyXG4gICAgcmV0dXJuICguLi50b01pZGRsZXdhcmUpID0+IG5ldyBWdWVSb3V0ZU1pZGRsZXdhcmUoZGVmaW5lZEdyb3VwcywgLi4udG9NaWRkbGV3YXJlKTtcclxufTsiXX0=
 
 /***/ }),
 
@@ -54648,12 +55387,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
 /* harmony import */ var _middlewares_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/auth */ "./resources/js/middlewares/auth.js");
-/* harmony import */ var vue_route_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-route-middleware */ "./node_modules/vue-route-middleware/dist/index.js");
-/* harmony import */ var vue_route_middleware__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_route_middleware__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
-/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
-/* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
-/* harmony import */ var _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/DashboardComponent */ "./resources/js/components/DashboardComponent.vue");
+/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
+/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
+/* harmony import */ var _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/ExampleComponent */ "./resources/js/components/ExampleComponent.vue");
+/* harmony import */ var _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/DashboardComponent */ "./resources/js/components/DashboardComponent.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -54676,7 +55413,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
 
-
 var store = new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 
@@ -54688,18 +55424,18 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '/',
     name: 'home',
-    component: _components_HomeComponent__WEBPACK_IMPORTED_MODULE_8__["default"],
+    component: _components_HomeComponent__WEBPACK_IMPORTED_MODULE_7__["default"],
     meta: {
       middleware: [_middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["unauthenticated"]]
     }
   }, {
     path: '/example',
     name: 'example',
-    component: _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _components_ExampleComponent__WEBPACK_IMPORTED_MODULE_8__["default"]
   }, {
     path: '/dashboard',
     name: 'dashboard',
-    component: _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_10__["default"],
+    component: _components_DashboardComponent__WEBPACK_IMPORTED_MODULE_9__["default"],
     meta: {
       middleware: [_middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["authenticated"]]
     }
@@ -54723,7 +55459,7 @@ router.beforeEach(function (to, from, next) {
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    App: _components_App__WEBPACK_IMPORTED_MODULE_7__["default"]
+    App: _components_App__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   router: router,
   mode: 'history',
@@ -54857,7 +55593,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DashboardComponent_vue_vue_type_template_id_01ab55f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DashboardComponent.vue?vue&type=template&id=01ab55f4&scoped=true& */ "./resources/js/components/DashboardComponent.vue?vue&type=template&id=01ab55f4&scoped=true&");
 /* harmony import */ var _DashboardComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DashboardComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/DashboardComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& */ "./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -54865,7 +55603,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _DashboardComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _DashboardComponent_vue_vue_type_template_id_01ab55f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _DashboardComponent_vue_vue_type_template_id_01ab55f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -54894,6 +55632,22 @@ component.options.__file = "resources/js/components/DashboardComponent.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DashboardComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DashboardComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DashboardComponent.vue?vue&type=style&index=0&id=01ab55f4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardComponent_vue_vue_type_style_index_0_id_01ab55f4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -55136,7 +55890,6 @@ __webpack_require__.r(__webpack_exports__);
 function authenticated(_ref) {
   var next = _ref.next,
       router = _ref.router;
-  console.log(localStorage.getItem('token'));
 
   if (!localStorage.getItem('token')) {
     return router.push({
@@ -55219,11 +55972,10 @@ var AuthService = /*#__PURE__*/function () {
   }, {
     key: "getAuthUser",
     value: function getAuthUser() {
-      axios.post(' get-auth-user', {}, {
+      return axios.post('get-auth-user', {}, {
         headers: _data_service__WEBPACK_IMPORTED_MODULE_0__["default"].authHeader()
       }).then(function (response) {
-        localStorage.setItem('token', 'Bearer ' + response.data.data.token);
-        return response.data;
+        return response.data.data;
       });
     }
   }]);
@@ -55232,6 +55984,49 @@ var AuthService = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (new AuthService());
+
+/***/ }),
+
+/***/ "./resources/js/services/booking-service.js":
+/*!**************************************************!*\
+  !*** ./resources/js/services/booking-service.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data-service */ "./resources/js/services/data-service.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var BookingService = /*#__PURE__*/function () {
+  function BookingService() {
+    _classCallCheck(this, BookingService);
+  }
+
+  _createClass(BookingService, [{
+    key: "listBookings",
+    value: function listBookings() {
+      return axios.post('get-bookings', {}, {
+        headers: _data_service__WEBPACK_IMPORTED_MODULE_0__["default"].authHeader()
+      }).then(function (response) {
+        return response.data.data;
+      })["catch"](function (error) {
+        return Promise.reject(error);
+      });
+    }
+  }]);
+
+  return BookingService;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (new BookingService());
 
 /***/ }),
 
@@ -55273,6 +56068,49 @@ var DataService = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/js/services/user-service.js":
+/*!***********************************************!*\
+  !*** ./resources/js/services/user-service.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data-service */ "./resources/js/services/data-service.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var UserService = /*#__PURE__*/function () {
+  function UserService() {
+    _classCallCheck(this, UserService);
+  }
+
+  _createClass(UserService, [{
+    key: "getUsers",
+    value: function getUsers() {
+      return axios.post('users', {}, {
+        headers: _data_service__WEBPACK_IMPORTED_MODULE_0__["default"].authHeader()
+      }).then(function (response) {
+        return response.data.data;
+      })["catch"](function (error) {
+        return Promise.reject(error);
+      });
+    }
+  }]);
+
+  return UserService;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (new UserService());
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -55283,6 +56121,8 @@ var DataService = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/auth-service */ "./resources/js/services/auth-service.js");
+/* harmony import */ var _services_booking_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/booking-service */ "./resources/js/services/booking-service.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/user-service */ "./resources/js/services/user-service.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -55290,10 +56130,16 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    user: {},
-    status: {}
+    user: null,
+    status: {
+      loggedIn: false
+    },
+    bookings: null,
+    users: null
   },
   getters: {
     getUserFromState: function getUserFromState(state) {
@@ -55302,14 +56148,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getLoginStatus: function getLoginStatus(state) {
       return state.status;
+    },
+    getBookingsList: function getBookingsList(state) {
+      return state.bookings;
+    },
+    getUsersList: function getUsersList(state) {
+      return state.users;
     }
   },
   actions: {
     getUser: function getUser(context) {
       return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].getAuthUser().then(function (user) {
-        return context.commit('foundUser', user);
+        context.commit('foundUser', user);
       })["catch"](function (error) {
-        return console.log(error);
+        if (error.response.status == 403) {
+          localStorage.removeItem('token');
+          context.commit('logout');
+        }
       });
     },
     login: function login(context, formData) {
@@ -55323,17 +56178,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     register: function register(context, formData) {
       return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].register(_objectSpread({}, formData)).then(function (user) {
-        console.log(user);
         context.commit('loginSuccessful', user);
         return Promise.resolve(user);
       })["catch"](function (error) {
         context.commit('loginFailure');
         return Promise.reject(error);
       });
+    },
+    logOut: function logOut(context) {
+      return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].logOut().then(function () {
+        return context.commit('logout');
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    getBookings: function getBookings(context) {
+      return _services_booking_service__WEBPACK_IMPORTED_MODULE_1__["default"].listBookings().then(function (booking) {
+        return context.commit('bookings', booking);
+      })["catch"](function (error) {
+        return console.log(error.response);
+      });
+    },
+    getUsers: function getUsers(context) {
+      return _services_user_service__WEBPACK_IMPORTED_MODULE_2__["default"].getUsers().then(function (users) {
+        return context.commit('users', users);
+      })["catch"](function (error) {
+        return console.log(error.response);
+      });
     }
   },
   mutations: {
     foundUser: function foundUser(state, data) {
+      state.status.loggedIn = true;
       state.user = data;
     },
     loginSuccessful: function loginSuccessful(state, user) {
@@ -55353,6 +56229,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     registerFailure: function registerFailure(state) {
       state.status.loggedIn = false;
+    },
+    bookings: function bookings(state, _bookings) {
+      state.bookings = _bookings;
+    },
+    users: function users(state, _users) {
+      state.users = _users;
     }
   }
 });

@@ -43,4 +43,9 @@ class BookingController extends Controller
     {
         return AppUtils::jsonResponse(StatusCodeEnum::UPDATED, 'Action Successful', $this->booking_contract->update($booking));
     }
+
+    public function list()
+    {
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successful', $this->booking_contract->list());
+    }
 }

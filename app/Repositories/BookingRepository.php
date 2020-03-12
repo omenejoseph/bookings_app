@@ -25,4 +25,9 @@ class BookingRepository implements BookingContract
    {
 
    }
+
+    public function list()
+    {
+        return Booking::all();
+    }
 }

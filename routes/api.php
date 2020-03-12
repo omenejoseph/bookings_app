@@ -30,9 +30,10 @@ Route::group(['middleware' => ['api', 'validateToken'], 'prefix' => '/v1'], func
     Route::post('/get-auth-user', 'UserController@getAuthUser');
     Route::patch('user/{user}', 'UserController@update')->name('update-user');
     Route::get('user/{user}', 'UserController@show')->name('find-user');
-    Route::get('users', 'UserController@list')->name('list-users');
+    Route::post('users', 'UserController@list')->name('list-users');
 
     Route::post('booking', 'BookingController@create')->name('create-booking');
     Route::get('booking/{booking}', 'BookingController@find')->name('find-booking');
     Route::patch('booking/{booking}', 'BookingController@update')->name('update-booking');
+    Route::post('get-bookings', 'BookingController@list')->name('list-bookings');
 });

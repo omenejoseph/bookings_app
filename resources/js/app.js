@@ -14,7 +14,6 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 import storeData from "./store/index";
 import {authenticated, unauthenticated} from "./middlewares/auth";
-import VueRouteMiddleware from 'vue-route-middleware';
 
 const store = new Vuex.Store(
     storeData

@@ -23,12 +23,11 @@ class AuthService {
     }
 
     getAuthUser(){
-        axios.post(' get-auth-user', {}, {
+        return axios.post('get-auth-user', {}, {
             headers: DataService.authHeader()
         })
         .then(response => {
-            localStorage.setItem('token', 'Bearer ' + response.data.data.token);
-            return response.data;
+            return response.data.data;
         });
     }
 }

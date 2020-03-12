@@ -1,9 +1,14 @@
 import AuthService from '../services/auth-service';
+import BookingService from '../services/booking-service';
+import UserService from '../services/user-service';
+
 
 export default {
     state: {
-        user: {},
-        status: {}
+        user: null,
+        status: {loggedIn: false},
+        bookings: null,
+        users: null,
     },
     getters: {
         getUserFromState(state){ //take parameter state
@@ -11,13 +16,25 @@ export default {
         },
         getLoginStatus(state){
             return state.status;
+        },
+        getBookingsList(state){
+            return state.bookings;
+        },
+        getUsersList(state){
+            return state.users;
         }
     },
     actions: {
         getUser(context){
             return AuthService.getAuthUser()
-                .then((user) => context.commit('foundUser', user))
-                .catch(error => console.log(error));
+                .then((user) => {
+                    context.commit('foundUser', user)})
+                .catch(error => {
+                    if (error.response.status == 403){
+                        localStorage.removeItem('token');
+                        context.commit('logout')
+                    }
+                });
         },
         login(context, formData){
             return AuthService.login({... formData})
@@ -33,7 +50,6 @@ export default {
         register(context, formData){
             return AuthService.register({... formData})
                 .then(user => {
-                    console.log(user);
                     context.commit('loginSuccessful', user);
                     return Promise.resolve(user);
                 })
@@ -41,10 +57,26 @@ export default {
                     context.commit('loginFailure');
                     return Promise.reject(error);
                 });
+        },
+        logOut(context){
+            return AuthService.logOut()
+                .then(() => context.commit('logout'))
+                .catch((error) => console.log(error));
+        },
+        getBookings(context){
+            return BookingService.listBookings()
+                .then((booking) => context.commit('bookings', booking))
+                .catch((error) => console.log(error.response));
+        },
+        getUsers(context){
+            return UserService.getUsers()
+                .then((users) => context.commit('users', users))
+                .catch((error) => console.log(error.response));
         }
     },
     mutations: {
         foundUser(state, data) {
+            state.status.loggedIn = true;
             state.user = data
         },
         loginSuccessful(state, user){
@@ -64,6 +96,12 @@ export default {
         },
         registerFailure(state) {
             state.status.loggedIn = false;
+        },
+        bookings(state, bookings){
+            state.bookings = bookings;
+        },
+        users(state, users){
+            state.users = users;
         }
     }
 
