@@ -17,13 +17,14 @@ class AppUtils
      * @param int $code
      * @param string $message
      * @param array $data
+     * @param array $meta
      * @return \Illuminate\Http\JsonResponse
      */
-    public function jsonResponse(int $code, string $message = '', $data = [])
+    public function jsonResponse(int $code, string $message = '', $data = [], $meta = [])
     {
         $ok_status = [StatusCodeEnum::OK, StatusCodeEnum::CREATED, StatusCodeEnum::UPDATED];
         $status = (in_array($code, $ok_status)) ? 'true' : 'false';
-        return response()->json(['status' => $status, 'data' => $data, 'message' => $message], $code);
+        return response()->json(['status' => $status, 'data' => $data, 'message' => $message, 'meta' => $meta], $code);
     }
 
     /**

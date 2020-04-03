@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Traits\UserRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -25,6 +26,6 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return $this->valArray();
+        return Arr::except($this->valArray(), ['email', 'password', 'username']);
     }
 }

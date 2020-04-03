@@ -14,7 +14,7 @@
                                     <h4>Bookings</h4>
                                 </div>
                             </a>
-                            <span class="text-muted"><router-link :to="{name: 'dashboard'}">Add New Booking</router-link> </span>
+                            <span class="text-muted"><router-link :to="{name: 'create-booking'}">Add New Booking</router-link> </span>
                         </div>
                         <div class="col-xs-6 col-sm-3 placeholder">
                             <a href="" @click="iWantToViewUsers">
@@ -24,7 +24,7 @@
                                     <h4>Users</h4>
                                 </div>
                             </a>
-                            <span class="text-muted"><router-link :to="{name: 'dashboard'}">Add New User</router-link> </span>
+                            <span class="text-muted"><router-link :to="{name: 'create-user'}">Add New User</router-link> </span>
                         </div>
                     </div>
                     <div v-if="viewBookings">
@@ -35,13 +35,24 @@
                                 <tr>
                                     <th>#</th>
                                     <th>title</th>
-
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(booking, index) in bookingsList" :key="booking.id">
                                     <td>{{index + 1}}</td>
                                     <td>{{booking.title}}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <router-link class="dropdown-item" :to="{name: 'update-booking', params: {id: booking.id}}">Update</router-link>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -59,6 +70,7 @@
                                     <th>username</th>
                                     <th>email</th>
                                     <th>phone</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -69,6 +81,17 @@
                                     <td>{{user.username}}</td>
                                     <td>{{user.email}}</td>
                                     <td>{{user.phone}}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="#">Update</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -89,6 +112,9 @@
               viewBookings: true,
               viewUsers: false,
           }
+        },
+        props: {
+          users: Boolean
         },
         computed: {
             currentUser() {
@@ -119,6 +145,12 @@
                 this.viewUsers =false;
                 this.viewBookings =true;
             },
+            resolveViewBookings(){
+                return console.log(this.users ? this.viewBookings && !this.users : this.viewBookings);
+            },
+            resolveViewUsers(){
+                return this.users ? this.viewUsers && this.users : this.viewUsers;
+            }
         },
         created() {
             console.log(this.currentUser, this.isLoggedIn);

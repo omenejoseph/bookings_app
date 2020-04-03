@@ -9,6 +9,7 @@ export default {
         status: {loggedIn: false},
         bookings: null,
         users: null,
+        currentBooking: null
     },
     getters: {
         getUserFromState(state){ //take parameter state
@@ -22,6 +23,9 @@ export default {
         },
         getUsersList(state){
             return state.users;
+        },
+        getBookingFromState(state) {
+            return state.currentBooking;
         }
     },
     actions: {
@@ -30,6 +34,7 @@ export default {
                 .then((user) => {
                     context.commit('foundUser', user)})
                 .catch(error => {
+                    console.log(error.response);
                     if (error.response.status == 403){
                         localStorage.removeItem('token');
                         context.commit('logout')
@@ -48,9 +53,13 @@ export default {
                 });
         },
         register(context, formData){
-            return AuthService.register({... formData})
+            let type = formData.type;
+            delete formData.type;
+            return AuthService.register({... formData}, type)
                 .then(user => {
-                    context.commit('loginSuccessful', user);
+                    if (type = 'register'){
+                        context.commit('loginSuccessful', user);
+                    }
                     return Promise.resolve(user);
                 })
                 .catch(error => {
@@ -71,7 +80,21 @@ export default {
         getUsers(context){
             return UserService.getUsers()
                 .then((users) => context.commit('users', users))
-                .catch((error) => console.log(error.response));
+                .catch((error) => {
+                    if (error.response.status == 403){
+                        this.logOut();
+                    }
+                });
+        },
+        getBooking(context, id){
+            return BookingService.viewBooking(id)
+                .then((booking) => context.commit('bookingFound', booking))
+                .catch((error) => Promise.reject(error));
+        },
+        createBooking(context, formData){
+            return BookingService.createBooking(formData)
+                    .then((booking) => booking)
+                    .catch((error) => Promise.reject(error));
         }
     },
     mutations: {
@@ -102,6 +125,9 @@ export default {
         },
         users(state, users){
             state.users = users;
+        },
+        bookingFound(state, booking){
+            state.currentBooking = booking;
         }
     }
 

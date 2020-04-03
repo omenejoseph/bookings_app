@@ -36,6 +36,7 @@ class BookingController extends Controller
      */
     public function find(Booking $booking)
     {
+        dd("here");
         return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successful', $this->booking_contract->read($booking));
     }
 

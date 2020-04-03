@@ -11,13 +11,13 @@ class AuthService {
     }
 
     logOut(){
-        localStorage.removeItem('token');
+        return Promise.resolve(localStorage.removeItem('token'));
     }
 
-    register(user){
+    register(user, type){
         return axios.post('user', {... user})
             .then(response => {
-                return this.login(user);
+                return  (type == 'register') ? this.login(user) : user;
             })
             .catch((error) => Promise.reject(error));
     }

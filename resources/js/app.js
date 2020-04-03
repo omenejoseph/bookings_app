@@ -23,6 +23,8 @@ import App from './components/App';
 import Home from './components/HomeComponent';
 import Example from './components/ExampleComponent';
 import DashboardComponent from "./components/DashboardComponent";
+import CreateUserComponent from "./components/CreateUserComponent";
+import CreateBookingComponent from "./components/CreateBookingComponent";
 
 axios.defaults.baseURL = '/api/v1';
 const router = new VueRouter({
@@ -47,13 +49,35 @@ const router = new VueRouter({
             component: DashboardComponent,
             meta: {
                 middleware: [authenticated]
+            },
+            props: true
+        },
+        {
+            path: '/create-user',
+            name: 'create-user',
+            component: CreateUserComponent,
+            meta: {
+                middleware: [authenticated]
             }
         },
         {
-            path: '*',
-            redirect: '/'
-        }
-
+            path: '/create-booking',
+            name: 'create-booking',
+            component: CreateBookingComponent,
+            meta: {
+                middleware: [authenticated]
+            },
+            props: true
+        },
+        {
+            path: '/update-booking/:id',
+            name: 'update-booking',
+            component: CreateBookingComponent,
+            meta: {
+                middleware: [authenticated]
+            },
+            props: true
+        },
     ],
 });
 router.beforeEach((to, from, next) => {

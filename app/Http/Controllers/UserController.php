@@ -11,6 +11,7 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use function Couchbase\defaultDecoder;
 use \Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -106,7 +107,7 @@ class UserController extends Controller
     public function list()
     {
         $users = $this->user_contract->list();
-        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successfully', $users);
+        return AppUtils::jsonResponse(StatusCodeEnum::OK, 'Action Successfully', $users['data'], $users['meta']);
     }
 
     /**

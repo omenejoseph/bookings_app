@@ -1,8 +1,8 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
         <router-link class="navbar-brand" :to="{name:'home'}">Bookings App</router-link>
-        <div>
-            <span v-if="isLoggedIn" class="text-light pr-2" >Hello {{currentUser.username}}</span>
+        <div v-if="isLoggedIn">
+            <span  class="text-light pr-2" >Hello {{currentUser.username}}</span>
             <button @click="logOut" class="btn-outline-primary float-right">sign-out</button>
         </div>
     </nav>

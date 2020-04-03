@@ -39,11 +39,16 @@ class UserRepository implements UserContract
    }
 
     /**
-     * @return Collection
+     * @return array
      */
-   public function list() : Collection
+   public function list() : array
    {
-       return User::all();
+       $users = User::paginate(10)->toArray();
+       $data = $users['data'];
+       unset($users['data']);
+       unset($users['items']);
+       $meta = $users;
+       return ['data' => $data, 'meta' => $meta];
    }
 
     /**
@@ -53,14 +58,12 @@ class UserRepository implements UserContract
    public function update(User $user) : User
    {
        $user->update([
-           'first_name' => $user->first_name ?? request()->first_name ,
-           'last_name' => $user->last_name ?? request()->last_name,
-           'title' => $user->title ?? request()->title,
-           'gender' => $user->gender ?? request()->gender,
-           'phone' => $user->phone ?? request()->phone,
-           'email' => $user->email ?? request()->email,
-           'username' => $user->username ?? request()->username,
-           'role' => $user->role ?? request()->role,
+           'first_name' => request()->first_name  ??  $user->first_name,
+           'last_name' =>  request()->last_name ??  $user->last_name,
+           'title' => request()->title  ?? $user->title,
+           'gender' =>  request()->gender?? $user->gender,
+           'phone' =>  request()->phone ?? $user->phone,
+           'role' =>  request()->role ?? $user->role,
        ]);
        return $user->refresh();
    }
